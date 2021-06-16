@@ -9,6 +9,12 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
-  color: #787878;
+  font-family: Poppins !important;
+  color: #787878 !important;
+  background: #F9F9F9 !important;
+  background-color: #F9F9F9 !important;
+}
+
+.body-wrapper {
+  margin-top: 70px;
 }
