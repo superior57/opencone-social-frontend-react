@@ -5,8 +5,8 @@
   "dependencies": {
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
-    "antd": "^4.16.2",
     "axios": "^0.18.0",
+    "bootstrap": "^5.0.1",
     "classnames": "^2.2.5",
     "jwt-decode": "^2.2.0",
     "moment": "^2.22.0",

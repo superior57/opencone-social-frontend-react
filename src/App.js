@@ -1,38 +1,41 @@
 import React, { Component } from "react";
-import {
-  Maindiv,
-  Navbardiv,
-  Descriptiondiv,
-  Headerdiv,
-  Contentdiv,
-  Footerdiv,
-} from "./styles/mainpage/mainpagestyle";
+import { Switch, Route, BrowserRouter as Router, Redirect } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import ArtBoardPage from "./pages/ArtBoardPage";
 
-import Navbar from "./components/layout/Navbar";
-import Header from "./components/layout/Header";
-import Content from "./components/layout/Content";
-import Footer from "./components/layout/Footer";
+import { ThemeProvider, createMuiTheme } from "@material-ui/core";
+import { blue } from "@material-ui/core/colors";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: blue[500]
+    },
+    secondary: {
+      main: blue[300]
+    }
+  }
+})
+
 
 class App extends Component {
   render() {
-    return (
-      <Maindiv>
-        <Navbardiv className="navdiv">
-          <Navbar></Navbar>
-        </Navbardiv>
-        <Descriptiondiv>
-          <Headerdiv>
-            <Header></Header>
-          </Headerdiv>
-          <Contentdiv>
-            <Content></Content>
-          </Contentdiv>
-          <Footerdiv>
-            <Footer></Footer>
-          </Footerdiv>
-        </Descriptiondiv>
-      </Maindiv>
-    );
+    return (<div>
+      <ThemeProvider theme={theme}>
+        <Router>
+          <Switch>
+            <Redirect exact from="/" to="/home" />
+            <Route path="/home">
+              <HomePage />
+            </Route>  
+            <Route path="/artboard">
+              <ArtBoardPage />
+            </Route>
+          </Switch>   
+        </Router>  
+      </ThemeProvider>      
+    </div>);
   }
 }
 
