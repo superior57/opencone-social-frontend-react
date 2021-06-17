@@ -36,7 +36,7 @@ const HeaderComponent = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
 
-    const handleSidebarClose = () => (event) => {
+    const handleSidebarClose = (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
         }

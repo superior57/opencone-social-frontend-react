@@ -11,6 +11,7 @@ export const Backopacitydiv = styled.div`
 
 export const Backimgdiv = styled.div`
   position: relative;
+  overflow: hidden;
 `;
 
 export const Opacitydiv = styled.div`
@@ -73,20 +74,10 @@ export const Adpostmenu = styled.div`
 `;
 
 export const Menuimagediv = styled.div`
-  width: 30%;
+  width: 100%;
   border-radius: 4;
-  padding: 10px;
   margin: 0;
   display: inline-block;
-  @media screen and (max-width: 1300px) {
-    width: 45%;
-  }
-  @media screen and (max-width: 768px) {
-    width: 46%;
-  }
-  @media screen and (max-width: 500px) {
-    width: 95%;
-  }
 `;
 
 export const Menudivsubimg = styled.div`

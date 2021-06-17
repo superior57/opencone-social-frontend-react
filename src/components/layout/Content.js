@@ -1,41 +1,77 @@
 import React, { Component } from "react";
-
 import {
   Backimgdiv,
   Backopacitydiv,
   Adpostdiv,
-  Adpostmenu,
   Adpostbuttondiv,
-  Adpostdivsmallp,
-  Adpostdivbigp,
-  Adpostdivbutton,
 } from "../../styles/layoutpage/contentpagestyle";
-
+import BackgroundImg from "../../assets/images/core-images/background.png";
 import Mainadimage from "../Content/Mainadimage";
+import { Grid, Button, Typography } from "@material-ui/core";
+
+const featuredProducts = [
+  {
+    name: "Condominiums",
+    image: "",
+    price: "1400",    
+  },
+  {
+    name: "Condominiums",
+    image: "",
+    price: "1400",    
+  },
+  {
+    name: "Condominiums",
+    image: "",
+    price: "1400",    
+  },
+  {
+    name: "Condominiums",
+    image: "",
+    price: "1400",    
+  },
+  {
+    name: "Condominiums",
+    image: "",
+    price: "1400",    
+  },
+  {
+    name: "Condominiums",
+    image: "",
+    price: "1400",    
+  },
+]
 
 class Content extends Component {
   render() {
     return (
       <div>
-        <Backopacitydiv></Backopacitydiv>
         <Backimgdiv>
+          <img src={BackgroundImg} className="position-absolute w-100 h-100" style={{
+            objectFit: 'cover'
+          }} alt="Background" />
+          <Backopacitydiv></Backopacitydiv>
           <Adpostdiv>
             <Adpostbuttondiv>
-              <Adpostdivsmallp>Want to make money</Adpostdivsmallp>
-              <Adpostdivbigp>Buy. Chat. Sell</Adpostdivbigp>
-              <Adpostdivbutton>
-                <i className="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;POST AD FOR FREE
-              </Adpostdivbutton>
+              <Typography className="text-white pt-4" >Want to make money</Typography>
+              <Typography variant="h4" className="text-white mb-4">Buy. Chat. Sell</Typography>
+              <Button variant="contained" color="primary" size="large">
+                <i className="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;POST AD FOR FREE                
+              </Button>
             </Adpostbuttondiv>
 
-            <Adpostmenu>
-              <Mainadimage></Mainadimage>
-              <Mainadimage></Mainadimage>
-              <Mainadimage></Mainadimage>
-              <Mainadimage></Mainadimage>
-              <Mainadimage></Mainadimage>
-              <Mainadimage></Mainadimage>
-            </Adpostmenu>
+            <Grid container spacing={3} className="py-4 px-4" style={{
+              maxWidth: 750
+            }}>
+              {
+                featuredProducts.map((fp, index) => <Grid key={"featured-product-" + index} item xs={12} sm={6} md={6} lg={4} >
+                  <Mainadimage 
+                    price={fp.price}
+                    name={fp.name}                  
+                  />
+                </Grid>)
+              }
+            </Grid>
           </Adpostdiv>
         </Backimgdiv>
       </div>

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import {
-  Menuimagediv,
   Menudivsubimg,
   Menudivdescription,
   Menudivdescriptionspanleft,
@@ -8,14 +7,14 @@ import {
   Menuavatardiv,
   Menuavatarright,
 } from "../../styles/layoutpage/contentpagestyle";
-
 import Menusubimage from "./Menusubimage";
 import Mainavatar from "./Mainavatar";
+import { Paper } from "@material-ui/core";
 
 class Mainadimage extends Component {
   render() {
     return (
-      <Menuimagediv>
+      <Paper elevation={3} className="overflow-hidden">
         <Menudivsubimg>
           <a href="/#">
             <Menusubimage></Menusubimage>
@@ -23,7 +22,7 @@ class Mainadimage extends Component {
         </Menudivsubimg>
         <Menudivdescription>
           <Menudivdescriptionspanleft>
-            <i className="fa fa-building"></i>Condominiums
+            <i className="fa fa-building"></i>{this.props.name}
           </Menudivdescriptionspanleft>
           <Menudivdescriptionspanright>Rent</Menudivdescriptionspanright>
           <div className="clear"></div>
@@ -32,10 +31,10 @@ class Mainadimage extends Component {
           <Menudivdescriptionspanleft>
             <Mainavatar></Mainavatar>
           </Menudivdescriptionspanleft>
-          <Menuavatarright>$1,400</Menuavatarright>
+          <Menuavatarright>${this.props.price}</Menuavatarright>
           <div className="clear"></div>
         </Menuavatardiv>
-      </Menuimagediv>
+      </Paper>
     );
   }
 }

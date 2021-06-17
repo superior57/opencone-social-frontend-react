@@ -5,7 +5,7 @@ class Menusubimage extends Component {
     return (
       <img
         width="100%"
-        height="140"
+        height="120"
         alt="mainadimg"
         src="./img/mainadimg.png"
       ></img>
