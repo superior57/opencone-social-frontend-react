@@ -140,7 +140,7 @@ const Navbar = () => {
           NavigationList.map((d, i) => <Link to={d.link} className="text-decoration-none" key={'nav-list-' + i} >
             <ListItem button={d.button} className={`text-${d.color}`}>               
               <ListItemIcon>{d.icon}</ListItemIcon> 
-              <ListItemText primary={d.label} />              
+              <ListItemText primary={t(d.label)} />              
             </ListItem>
           </Link>)
         }
@@ -153,7 +153,7 @@ const Navbar = () => {
         component="nav"
         subheader={
           <ListSubheader>
-            Categories
+            {t('Categories')}
           </ListSubheader>
         }
       >
@@ -172,7 +172,7 @@ const Navbar = () => {
             )
           }}    
           size="small"      
-          placeholder="Search Categories"
+          placeholder={t('Search Categories')}
           margin="normal"
         />
         {

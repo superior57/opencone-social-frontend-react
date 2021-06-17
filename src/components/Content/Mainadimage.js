@@ -10,9 +10,11 @@ import {
 import Menusubimage from "./Menusubimage";
 import Mainavatar from "./Mainavatar";
 import { Paper } from "@material-ui/core";
+import { withTranslation } from "react-i18next";
 
 class Mainadimage extends Component {
   render() {
+    const { t } = this.props;
     return (
       <Paper elevation={3} className="overflow-hidden">
         <Menudivsubimg>
@@ -24,7 +26,7 @@ class Mainadimage extends Component {
           <Menudivdescriptionspanleft>
             <i className="fa fa-building"></i>{this.props.name}
           </Menudivdescriptionspanleft>
-          <Menudivdescriptionspanright>Rent</Menudivdescriptionspanright>
+          <Menudivdescriptionspanright>{t('Rent')}</Menudivdescriptionspanright>
           <div className="clear"></div>
         </Menudivdescription>
         <Menuavatardiv>
@@ -39,4 +41,4 @@ class Mainadimage extends Component {
   }
 }
 
-export default Mainadimage;
+export default withTranslation()(Mainadimage);

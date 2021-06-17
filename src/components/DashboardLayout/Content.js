@@ -57,7 +57,7 @@ const Content = () => {
             <Typography className="text-white pt-4" >{t('want_to_make_money')}</Typography>
             <Typography variant="h4" className="text-white mb-4">{t('Buy. Chat. Sell')}</Typography>
             <Button variant="contained" color="primary" size="large">
-              <i className="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;POST AD FOR FREE                
+              <i className="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;{t('POST AD FOR FREE')}                
             </Button>
           </Adpostbuttondiv>
 
@@ -65,10 +65,10 @@ const Content = () => {
             maxWidth: 750
           }}>
             {
-              featuredProducts.map((fp, index) => <Grid key={"featured-product-" + index} item xs={12} sm={6} md={6} lg={4} >
+              featuredProducts.map((fp, index) => <Grid key={"featured-product-" + index} item xs={6} sm={6} md={6} lg={4} >
                 <Mainadimage 
                   price={fp.price}
-                  name={fp.name}                  
+                  name={t(fp.name)}                  
                 />
               </Grid>)
             }

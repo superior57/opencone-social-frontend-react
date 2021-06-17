@@ -12,6 +12,7 @@ import {
   Menuliicondiv,
   Menulifontdiv,
 } from "../../styles/layoutpage/footerpagestyle";
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles(theme => ({
   menuItem: {
@@ -26,6 +27,7 @@ const useStyles = makeStyles(theme => ({
 
 const Footer = () => {
   const classes = useStyles();  
+  const { t } = useTranslation();
   return (
     <Footermenudiv>
       <Menudiv>
@@ -35,7 +37,7 @@ const Footer = () => {
               <Menuliicondiv>
                 <i className="fa fa-home"></i>
               </Menuliicondiv>
-              <Menulifontdiv>Home</Menulifontdiv>
+              <Menulifontdiv>{t('Home')}</Menulifontdiv>
             </Link>
           </Menuulli>
           <Menuulli>
@@ -43,7 +45,7 @@ const Footer = () => {
               <Menuliicondiv>
                 <i className="fa fa-search"></i>
               </Menuliicondiv>
-              <Menulifontdiv>Explore</Menulifontdiv>
+              <Menulifontdiv>{t('Explore')}</Menulifontdiv>
             </Link>
           </Menuulli>
           <Menuulli>
@@ -51,7 +53,7 @@ const Footer = () => {
               <Menuliicondiv>
                 <i className="fa fa-wechat"></i>
               </Menuliicondiv>
-              <Menulifontdiv>My chats</Menulifontdiv>
+              <Menulifontdiv>{t('My chats')}</Menulifontdiv>
             </Link>            
           </Menuulli>
           <Menuulli>
@@ -59,7 +61,7 @@ const Footer = () => {
               <Menuliicondiv>
                 <i className="fa fa-bell"></i>
               </Menuliicondiv>
-              <Menulifontdiv>Notifications</Menulifontdiv>
+              <Menulifontdiv>{t('Notifications')}</Menulifontdiv>
             </Link>            
           </Menuulli>
           <Menuulli>
@@ -67,7 +69,7 @@ const Footer = () => {
               <Menuliicondiv>
                 <i className="fa fa-user"></i>
               </Menuliicondiv>
-              <Menulifontdiv>Profile</Menulifontdiv>
+              <Menulifontdiv>{t('Profile')}</Menulifontdiv>
             </Link>
           </Menuulli>
         </Menuul>

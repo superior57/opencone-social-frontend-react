@@ -40,6 +40,10 @@ export const Adpostbuttondiv = styled.div`
   font-family: Poppins-Bold;
   color: #fff;
   padding: 0px 50px;
+  
+  @media screen and (min-width: 567px) {
+    min-width: 350px;
+  }
 `;
 
 export const Adpostdivsmallp = styled.p`

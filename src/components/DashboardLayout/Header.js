@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import { Grid, TextField, InputAdornment, FormControl, Select, Button } from "@material-ui/core";
 import { Search, Person } from "@material-ui/icons";
+import { withTranslation } from "react-i18next";
 
 class Header extends Component {
   render() {
+    const { t } = this.props;
     return (
       <div>
         <Grid container spacing={2}>
@@ -18,7 +20,7 @@ class Header extends Component {
                   <Search />
                 </InputAdornment>
               }}
-              placeholder="Search In Jordan"      
+              placeholder={t('Search In Jordan')}      
             />
           </Grid>
           <Grid item >
@@ -37,13 +39,13 @@ class Header extends Component {
           </Grid>
           <Grid item>
             <Button variant="contained" color="primary">
-              Search            
+              {t('Search')}            
             </Button>
           </Grid>
           <Grid item>
             <Button variant="outlined" color="primary" className="border-2">
               <Person />
-              SIGN IN
+              {t('SIGN IN')}
             </Button>
           </Grid>
         </Grid>
@@ -52,4 +54,4 @@ class Header extends Component {
   }
 }
 
-export default Header;
+export default withTranslation()(Header);
