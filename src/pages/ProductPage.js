@@ -2,7 +2,7 @@ import React from 'react';
 import ImageContent from '../components/Product/ImageContent';
 
 const productData = {
-    images: 
+    // images: 
 }
 
 const ProductPage = () => {

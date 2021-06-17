@@ -17,6 +17,8 @@ import { makeStyles, Button, IconButton } from "@material-ui/core";
 import clsx from "clsx";
 import { Dehaze, Close } from "@material-ui/icons";
 import { isMobile as isMobileFnc } from "../utils/Device";
+import { Route, Switch } from "react-router-dom";
+import ProductPage from "./ProductPage";
 
 const drawerWidth = 300;
 
@@ -101,7 +103,14 @@ const DashboardPage = () => {
                 <Header></Header>
             </Headerdiv>
             <Contentdiv className="px-4">
-                <Content></Content>
+                <Switch>
+                    <Route exact path="/dashboard">
+                        <Content />                    
+                    </Route>
+                    <Route path="/dashboard/product">
+                        <ProductPage />
+                    </Route>
+                </Switch>
             </Contentdiv>
             <Footerdiv className="px-4">
                 <Footer></Footer>
