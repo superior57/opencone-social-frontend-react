@@ -8,10 +8,10 @@ import {
     Footerdiv,
 } from "../styles/mainpage/mainpagestyle";
   
-import Navbar from "../components/layout/Navbar";
-import Header from "../components/layout/Header";
-import Content from "../components/layout/Content";
-import Footer from "../components/layout/Footer";
+import Navbar from "../components/DashboardLayout/Navbar";
+import Header from "../components/DashboardLayout/Header";
+import Content from "../components/DashboardLayout/Content";
+import Footer from "../components/DashboardLayout/Footer";
 import Drawer from '@material-ui/core/Drawer'
 import { makeStyles, Button, IconButton } from "@material-ui/core";
 import clsx from "clsx";

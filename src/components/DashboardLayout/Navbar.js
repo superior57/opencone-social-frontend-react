@@ -5,6 +5,11 @@ import { Link } from "react-router-dom";
 import LogoComponent from "../common/logo";
 import JordanFlagImg from "../../assets/images/flags/jordan_flag.png";
 import { ExpandLess, ExpandMore, DriveEta, Search } from "@material-ui/icons";
+import { 
+  UPDATE_LANGUAGE
+} from "../../store/actions/types";
+import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles(theme => ({
   nested: {
@@ -25,7 +30,9 @@ const Navbar = () => {
   const classes = useStyles();
   const [selectedItem, setSelectedItem] = useState('');
   const [searchKey, setSearchKey] = useState('');
-
+  const dispatch = useDispatch(null);
+  const theme = useSelector(store => store.theme);
+  const { t, i18n } = useTranslation();
   
   const filteredCategories = () => {
     let filteredCategoryList = [];
@@ -90,12 +97,38 @@ const Navbar = () => {
         <Grid item>
           <Grid container spacing={1}>
             <Grid item>
-              <Button variant="contained" color="primary" className="p-0" size="small" style={{ minWidth: 40 }}>
+              <Button 
+                variant={theme.language === "en" ? "contained" : "outlined"} 
+                color="primary" 
+                className="p-0" 
+                size="small" 
+                style={{ minWidth: 40 }} 
+                onClick={() => {
+                  i18n.changeLanguage("en");
+                  dispatch({
+                    type: UPDATE_LANGUAGE,
+                    payload: "en"
+                  })
+                }}
+              >
                 EN              
               </Button>
             </Grid>
             <Grid item>
-              <Button variant="outlined" color="primary" className="p-0" size="small" style={{ minWidth: 40 }}>
+              <Button 
+                variant={theme.language === "ar" ? "contained" : "outlined"} 
+                color="primary" 
+                className="p-0" 
+                size="small" 
+                style={{ minWidth: 40 }} 
+                onClick={() => {
+                  i18n.changeLanguage("ar");
+                  dispatch({
+                    type: UPDATE_LANGUAGE,
+                    payload: "ar"
+                  })
+                }}
+              >
                 AR              
               </Button>
             </Grid>

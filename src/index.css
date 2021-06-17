@@ -18,3 +18,7 @@ body {
 .body-wrapper {
   margin-top: 70px;
 }
+
+.direction-rtl * {
+  direction: rtl !important;
+}
