@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import {
     Maindiv,
     Navbardiv,
@@ -16,6 +16,7 @@ import Drawer from '@material-ui/core/Drawer'
 import { makeStyles, Button, IconButton } from "@material-ui/core";
 import clsx from "clsx";
 import { Dehaze, Close } from "@material-ui/icons";
+import { isMobile as isMobileFnc } from "../utils/Device";
 
 const drawerWidth = 300;
 
@@ -46,22 +47,35 @@ const useStyles = makeStyles(theme => ({
 const DashboardPage = () => {
     const classes = useStyles();
     const [sidebarOpen, setSidebarOpen] = useState(true);
+    const [isMobile, setIsMobile] = useState(isMobileFnc());
+    
+    useLayoutEffect(() => {
+        console.log("updating layout");
+        const updateSize = () => {
+            setIsMobile(isMobileFnc());
+        }
+        window.addEventListener('resize', updateSize)
+        updateSize();
+        return () => window.removeEventListener('resize', updateSize);
+    }, [])
+
     return (<Maindiv>
         <Drawer
           variant={
-              window.innerWidth < 450 ? "temporary" : "permanent"
+              isMobile ? "temporary" : "permanent"
           }
           open={sidebarOpen}
           className={clsx(classes.drawer, {
             [classes.drawerOpen]: sidebarOpen,
-            [classes.drawerClose]: !sidebarOpen,
+            [classes.drawerClose]: !sidebarOpen && !isMobile,
           })}
           classes={{
             paper: clsx({
               [classes.drawerOpen]: sidebarOpen,
-              [classes.drawerClose]: !sidebarOpen,
+              [classes.drawerClose]: !sidebarOpen && !isMobile,
             }),
-          }}         
+          }}
+          onClose={() => setSidebarOpen(false)}
         >   
             <div className="text-end">
                 {

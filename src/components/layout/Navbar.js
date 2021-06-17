@@ -34,7 +34,7 @@ const Navbar = () => {
       filteredCategoryList = filteredCategoryList.filter(cat => {
         let str_labels = cat.label;
         if (cat.children) {
-          cat.children.map(catChild => {
+          cat.children.forEach(catChild => {
             str_labels += " " + catChild.label;
           })
         }

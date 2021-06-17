@@ -18,7 +18,8 @@ const theme = createMuiTheme({
   },
   typography: {
     "fontFamily": "Poppins"
-  }
+  },
+  direction: "rtl"
 })
 
 
