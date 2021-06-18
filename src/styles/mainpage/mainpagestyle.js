@@ -32,7 +32,7 @@ export const Footerdiv = styled.div`
   padding: 20px 0px;
   text-align: center;
   background-color: #fff;
-  border-style: solid none none none;
+  border-style: solid none;
   border-color: #ccc;
   border-width: 1px;
 `;

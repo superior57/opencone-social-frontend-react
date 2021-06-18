@@ -15,3 +15,6 @@ export const DELETE_POST = 'DELETE_POST';
 // theme
 export const UPDATE_DIRECTION = "UPDATE_DIRECTION";
 export const UPDATE_LANGUAGE = "UPDATE_LANGUAGE";
+
+// device
+export const UPDATE_DEVICE = "UPDATE_DEVICE";

@@ -1,15 +1,18 @@
-import React, { Component } from "react";
+import React, {  } from "react";
 import { Grid, TextField, InputAdornment, FormControl, Select, Button } from "@material-ui/core";
 import { Search, Person } from "@material-ui/icons";
-import { withTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
-class Header extends Component {
-  render() {
-    const { t } = this.props;
-    return (
-      <div>
-        <Grid container spacing={2}>
-          <Grid item xs={4}>
+const Header = () => {
+  const { t } = useTranslation();
+  const { isMobile } = useSelector(store => store.device);
+
+  return (
+    <div className="w-100">
+      <Grid container spacing={2} justify={isMobile ? "flex-end" : "flex-start"}>
+        {
+          !isMobile && <Grid item xs={4}>
             <TextField
               hiddenLabel
               variant="outlined"
@@ -23,7 +26,9 @@ class Header extends Component {
               placeholder={t('Search In Jordan')}      
             />
           </Grid>
-          <Grid item >
+        }
+        {
+          !isMobile && <Grid item >
             <FormControl size="small">
               <Select
                 native
@@ -37,21 +42,29 @@ class Header extends Component {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item>
+        }
+        {
+          !isMobile && <Grid item>
             <Button variant="contained" color="primary">
               {t('Search')}            
             </Button>
           </Grid>
-          <Grid item>
-            <Button variant="outlined" color="primary" className="border-2">
-              <Person />
-              {t('SIGN IN')}
-            </Button>
-          </Grid>
+        }
+        
+        <Grid item>
+          {
+            isMobile && <Button variant="text" color="default" className="text-black-50 rounded-0" style={{ minWidth: 30 }}>
+                <Search />        
+              </Button>
+          }
+          <Button variant={isMobile ? "text" : "outlined"} color="primary" className={`border-2 ${isMobile && "text-black-50 rounded-0"}`} style={{ minWidth: 30 }}>
+            <Person />
+            {!isMobile && t('SIGN IN')}
+          </Button>
         </Grid>
-      </div>
-    );
-  }
+      </Grid>
+    </div>
+  )
 }
 
-export default withTranslation()(Header);
+export default Header;

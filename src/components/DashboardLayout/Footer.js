@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core";
+import { Button, makeStyles } from "@material-ui/core";
 import React, {  } from "react";
 import { Link } from "react-router-dom";
 import { blue } from "@material-ui/core/colors";
@@ -6,13 +6,14 @@ import { blue } from "@material-ui/core/colors";
 import {
   Footermenudiv,
   Menudiv,
-  Addiconbutton,
   Menuul,
   Menuulli,
   Menuliicondiv,
   Menulifontdiv,
 } from "../../styles/layoutpage/footerpagestyle";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import { Add } from "@material-ui/icons";
 
 const useStyles = makeStyles(theme => ({
   menuItem: {
@@ -21,6 +22,17 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       color: blue[600]
     }
+  },
+  addButton: {
+    position: "absolute",
+    minWidth: 0, 
+    width: 40, 
+    height: 40,
+    color: '#404040',
+    background: 'white',
+    backgroundColor: "white",
+    marginTop: -40,
+    border: 'solid 1px #CCCCCC'
   }
 }))
 
@@ -28,8 +40,15 @@ const useStyles = makeStyles(theme => ({
 const Footer = () => {
   const classes = useStyles();  
   const { t } = useTranslation();
+  const { isMobile } = useSelector(store => store.device);
+
   return (
     <Footermenudiv>
+      <Button variant="contained" className={classes.addButton} style={{
+        marginTop: isMobile ? 40 : -40
+      }}>
+        <Add />
+      </Button>
       <Menudiv>
         <Menuul>
           <Menuulli>
@@ -37,7 +56,7 @@ const Footer = () => {
               <Menuliicondiv>
                 <i className="fa fa-home"></i>
               </Menuliicondiv>
-              <Menulifontdiv>{t('Home')}</Menulifontdiv>
+              {!isMobile && <Menulifontdiv>{t('Home')}</Menulifontdiv>}
             </Link>
           </Menuulli>
           <Menuulli>
@@ -45,7 +64,7 @@ const Footer = () => {
               <Menuliicondiv>
                 <i className="fa fa-search"></i>
               </Menuliicondiv>
-              <Menulifontdiv>{t('Explore')}</Menulifontdiv>
+              {!isMobile && <Menulifontdiv>{t('Explore')}</Menulifontdiv>}
             </Link>
           </Menuulli>
           <Menuulli>
@@ -53,7 +72,7 @@ const Footer = () => {
               <Menuliicondiv>
                 <i className="fa fa-wechat"></i>
               </Menuliicondiv>
-              <Menulifontdiv>{t('My chats')}</Menulifontdiv>
+              {!isMobile && <Menulifontdiv>{t('My chats')}</Menulifontdiv>}
             </Link>            
           </Menuulli>
           <Menuulli>
@@ -61,7 +80,7 @@ const Footer = () => {
               <Menuliicondiv>
                 <i className="fa fa-bell"></i>
               </Menuliicondiv>
-              <Menulifontdiv>{t('Notifications')}</Menulifontdiv>
+              {!isMobile && <Menulifontdiv>{t('Notifications')}</Menulifontdiv>}
             </Link>            
           </Menuulli>
           <Menuulli>
@@ -69,14 +88,12 @@ const Footer = () => {
               <Menuliicondiv>
                 <i className="fa fa-user"></i>
               </Menuliicondiv>
-              <Menulifontdiv>{t('Profile')}</Menulifontdiv>
+              {!isMobile && <Menulifontdiv>{t('Profile')}</Menulifontdiv>}
             </Link>
           </Menuulli>
         </Menuul>
       </Menudiv>
-      <Addiconbutton>
-        <i className="fa fa-plus"></i>
-      </Addiconbutton>
+      
     </Footermenudiv>
   )
 }

@@ -25,6 +25,11 @@ export const Addiconbutton = styled.button`
 export const Menuul = styled.ul`
   list-style-type: none;
   margin: 0;
+  padding: 0;
+  @media (max-width: 567px) {
+    display: flex;
+    justify-content: space-between;
+  }
 `;
 
 export const Menuulli = styled.li`
@@ -36,6 +41,9 @@ export const Menuulli = styled.li`
   &:hover {
     transform: scale(0.9);
     color: #2785c7;
+  };
+  @media (max-width: 567px) {
+    padding: 0 10px;
   }
 `;
 
