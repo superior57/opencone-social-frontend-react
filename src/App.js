@@ -1,15 +1,19 @@
 import React, { useEffect } from "react";
 import { Switch, Route, BrowserRouter as Router, Redirect } from "react-router-dom";
-import HomePage from "./pages/HomePage";
 import DashboardPage from "./pages/dashboard/DashboardPage";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core";
 import { blue, green } from "@material-ui/core/colors";
 import { useSelector, useDispatch } from "react-redux";
 import { UPDATE_DEVICE } from "./store/actions/types";
-import { isMobile as isMobileFnc } from "./utils/Device";
+import { isMobile as isMobileFnc } from "./utils/device";
+import jwtDecode from "jwt-decode";
+import { SET_CURRENT_USER } from "./store/actions/types";
+import { routeConfig } from "./utils/routeConfig";
+import CustomRoute from "./components/Route/CustomRoute";
+import history from "./@history";
 
 const App = () => { 
-  const state = useSelector(store => store);
+  const state = useSelector(state => state);
   const dispatch = useDispatch(null);
   const theme = createMuiTheme({
     palette: {
@@ -46,23 +50,35 @@ const App = () => {
     })
   }
 
+  const stayLogin = () => {
+    if (localStorage.getItem('jwtToken')) {
+      const decoded = jwtDecode(localStorage.getItem('jwtToken'));
+      dispatch({
+        type: SET_CURRENT_USER,
+        payload: decoded
+      });
+    }
+  }
+
   useEffect(() => {
     resizeListener();
+    stayLogin();  
     window.addEventListener('resize', resizeListener);
     return () => {
       window.removeEventListener('resize', resizeListener);
-    }
+    }  
   }, [])
 
+  const { landingLayoutRoutes : routes } = routeConfig;
   return (
       <div className={theme.direction === "rtl" ? "direction-rtl" : ""}>
         <ThemeProvider theme={theme}>
-          <Router>
+          <Router history={history}>
             <Switch>
               <Redirect exact from="/" to="/home" />
-              <Route path="/explore">
-                <HomePage />
-              </Route>  
+              {
+                routes.map((route, index) => <CustomRoute key={'route-' + index} {...route} />)
+              }
               <Route path="/">
                 <DashboardPage />
               </Route>

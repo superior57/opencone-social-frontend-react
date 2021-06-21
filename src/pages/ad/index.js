@@ -1,0 +1,1 @@
+export { default as PostAdPage } from "./PostAdPage";

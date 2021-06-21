@@ -9,6 +9,7 @@ import BackgroundImg from "../../assets/images/core-images/background.png";
 import Mainadimage from "../Content/Mainadimage";
 import { Grid, Button, Typography } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
+import { useHistory } from "react-router-dom";
 
 const featuredProducts = [
   {
@@ -45,6 +46,7 @@ const featuredProducts = [
 
 const Content = () => {
   const { t } = useTranslation();
+  const history = useHistory();
   return (
     <div>
       <Backimgdiv>
@@ -56,7 +58,9 @@ const Content = () => {
           <Adpostbuttondiv className="text-center text-md-start px-md-3">
             <Typography className="text-white pt-4" >{t('want_to_make_money')}</Typography>
             <Typography variant="h4" className="text-white mb-4">{t('Buy. Chat. Sell')}</Typography>
-            <Button variant="contained" color="primary" size="large">
+            <Button variant="contained" color="primary" size="large" onClick={() => {
+              history.push('/ad')
+            }}>
               <i className="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;{t('POST AD FOR FREE')}                
             </Button>
           </Adpostbuttondiv>

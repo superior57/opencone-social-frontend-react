@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
-import { loginUser } from "../../store/actions/authActions";
+import { registerUser } from "../../store/actions/authActions";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -13,22 +13,23 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const LoginPage = () => {
+const RegisterPage = () => {
     const classes = useStyles();
     const { register, handleSubmit} = useForm();
     const dispatch = useDispatch(null);
     const { errors } = useSelector(state => state);
     const auth = useSelector(state => state.auth);
-    const history = useHistory();    
+    const history = useHistory();
+    
 
     useEffect(() => {
         if (localStorage.getItem('jwtToken')) {
-            history.goBack();
+            history.push('/home')
         }
     }, [auth])
 
     const onSubmit = data => {
-        dispatch(loginUser(data));
+        dispatch(registerUser(data, history));
     }
 
     return (
@@ -39,6 +40,15 @@ const LoginPage = () => {
                         <Typography variant="subtitle2" className="text-center mb-3">
                             Log in or Register
                         </Typography> 
+                        <TextField
+                            {...register("name")}
+                            className="mb-3"
+                            label="Name"
+                            variant="outlined"
+                            fullWidth
+                            error={errors.name && true}
+                            helperText={errors.name}
+                        />
                         <TextField
                             {...register("email", { required: true })}
                             className="mb-3"
@@ -61,13 +71,24 @@ const LoginPage = () => {
                             error={errors.password && true}
                             helperText={errors.password}
                         />   
+                        <TextField
+                            {...register("password2", { required: true })}
+                            className="mb-3"
+                            label="Password Confirmation"
+                            variant="outlined"
+                            type="password"
+                            fullWidth
+                            required
+                            error={errors.password2 && true}
+                            helperText={errors.password2}
+                        />   
                         <Button className="mb-3" variant="contained" color="primary" type="submit" size="large" fullWidth>
-                            {"Login in"}                          
+                            {"Register"}                          
                         </Button>
                         <Grid className="text-end">
-                            <Link to="/register">
+                            <Link to="/login">
                                 <Typography variant="caption" color="primary">
-                                    {"Don't you have an account?"}
+                                    {"Already have an account?"}
                                 </Typography>
                             </Link>
                         </Grid>
@@ -78,4 +99,4 @@ const LoginPage = () => {
     )
 }
 
-export default LoginPage;
+export default RegisterPage;

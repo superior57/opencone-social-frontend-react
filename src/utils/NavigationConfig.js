@@ -2,7 +2,7 @@
 import React from "react";
 import { Home, Notifications, Sms, Phone, DriveEta } from "@material-ui/icons";
 
-export const NavigationList = [
+export const navigationList = [
     {
         label: "0790180000",
         icon: <Phone color="primary" />,
@@ -20,7 +20,7 @@ export const NavigationList = [
     {
         label: "Notification",
         icon: <Notifications />,
-        link: "",
+        link: "/product",
         button: true,
         color: "dark"
     },

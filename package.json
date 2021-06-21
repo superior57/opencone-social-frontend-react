@@ -1,5 +1,5 @@
 {
-  "name": "frontend-upgrade",
+  "name": "client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -12,6 +12,7 @@
     "bootstrap": "^5.0.1",
     "clsx": "^1.1.1",
     "eslint-plugin-react": "^7.24.0",
+    "history": "^5.0.0",
     "i18next": "^20.3.2",
     "jwt-decode": "^3.1.2",
     "moment": "^2.29.1",

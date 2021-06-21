@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { List, ListItemIcon, ListItem, ListItemText, Divider, Grid, Button, ListSubheader, makeStyles, Collapse, TextField, InputAdornment } from "@material-ui/core";
-import { NavigationList, Categories } from "../../utils/NavigationConfig";
+import { navigationList, Categories } from "../../utils/navigationConfig";
 import { Link } from "react-router-dom";
 import LogoComponent from "../common/logo";
 import JordanFlagImg from "../../assets/images/flags/jordan_flag.png";
@@ -137,7 +137,7 @@ const Navbar = () => {
       </Grid>
       <List>
         {
-          NavigationList.map((d, i) => <Link to={d.link} className="text-decoration-none" key={'nav-list-' + i} >
+          navigationList.map((d, i) => <Link to={d.link} className="text-decoration-none" key={'nav-list-' + i} >
             <ListItem button={d.button} className={`text-${d.color}`}>               
               <ListItemIcon>{d.icon}</ListItemIcon> 
               <ListItemText primary={t(d.label)} />              

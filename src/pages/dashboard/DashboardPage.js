@@ -6,20 +6,18 @@ import {
     Headerdiv,
     Contentdiv,
     Footerdiv,
-} from "../../styles/mainpage/mainpagestyle";
-  
+} from "../../styles/mainpage/mainpagestyle";  
 import Navbar from "../../components/DashboardLayout/Navbar";
 import Header from "../../components/DashboardLayout/Header";
-import Content from "../../components/DashboardLayout/Content";
 import Footer from "../../components/DashboardLayout/Footer";
 import Drawer from '@material-ui/core/Drawer'
 import { makeStyles, Button, IconButton } from "@material-ui/core";
 import clsx from "clsx";
 import { Dehaze, Close } from "@material-ui/icons";
-import { Route, Switch } from "react-router-dom";
-import ProductPage from "./ProductPage";
+import { Switch } from "react-router-dom";
 import { useSelector } from "react-redux";
-import LoginPage from "../auth/LoginPage";
+import { routeConfig } from "../../utils/routeConfig";
+import CustomRoute from "../../components/Route/CustomRoute";
 
 const drawerWidth = 300;
 
@@ -58,6 +56,7 @@ const DashboardPage = () => {
     const device = useSelector(store => store.device);
     const theme = useSelector(store => store.theme);
 
+    const { dashboardLayoutRoutes: routes } = routeConfig;
     return (
         <Maindiv>
             <Drawer
@@ -104,15 +103,9 @@ const DashboardPage = () => {
                 </Headerdiv>
                 <Contentdiv className="px-2 px-md-4 order-1 order-md-0">
                     <Switch>
-                        <Route exact path="/home">
-                            <Content />                    
-                        </Route>
-                        <Route path="/product">
-                            <ProductPage />
-                        </Route>
-                        <Route path="/login">
-                            <LoginPage />
-                        </Route>
+                        {
+                            routes.map((route, index) => <CustomRoute key={'dashboard-route-' + index} {...route} />)
+                        }
                     </Switch>
                 </Contentdiv>
                 <Footerdiv className="px-4 order-0 order-md-1">
