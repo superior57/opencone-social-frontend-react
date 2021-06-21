@@ -1,0 +1,35 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "react-app",
+        "react-app/jest"
+    ],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+        "react/react-in-jsx-scope": "off",
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+        "import/no-anonymous-default-export": [0, {
+            "allowArray": true,
+            "allowArrowFunction": true,
+            "allowAnonymousClass": true,
+            "allowAnonymousFunction": true,
+            "allowCallExpression": true, // The true value here is for backward compatibility
+            "allowLiteral": true,
+            "allowObject": true
+        }],
+        "react/prop-types": 0,
+        "react-hooks/exhaustive-deps": 0
+    }
+}

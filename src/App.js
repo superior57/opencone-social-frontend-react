@@ -1,25 +1,76 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import { Switch, Route, BrowserRouter as Router, Redirect } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import DashboardPage from "./pages/dashboard/DashboardPage";
+import { ThemeProvider, createMuiTheme } from "@material-ui/core";
+import { blue, green } from "@material-ui/core/colors";
+import { useSelector, useDispatch } from "react-redux";
+import { UPDATE_DEVICE } from "./store/actions/types";
+import { isMobile as isMobileFnc } from "./utils/Device";
 
-function App() {
+const App = () => { 
+  const state = useSelector(store => store);
+  const dispatch = useDispatch(null);
+  const theme = createMuiTheme({
+    palette: {
+      primary: {
+        main: blue[500],
+        light: blue[100],
+        dark: blue[700]
+      },
+      secondary: {
+        main: blue[300]
+      },
+      success: {
+        main: green[400]
+      }
+    },
+    typography: {
+      "fontFamily": "Poppins",
+    },
+    overrides: {
+      MuiTypography: {
+        color: '#787878'
+      },
+      '& *': {
+        fontFamily: "Poppins",
+      },
+    },
+    direction: state.theme.direction,
+  })
+
+  const resizeListener = () => {
+    dispatch({
+      type: UPDATE_DEVICE,
+      payload: isMobileFnc()
+    })
+  }
+
+  useEffect(() => {
+    resizeListener();
+    window.addEventListener('resize', resizeListener);
+    return () => {
+      window.removeEventListener('resize', resizeListener);
+    }
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+      <div className={theme.direction === "rtl" ? "direction-rtl" : ""}>
+        <ThemeProvider theme={theme}>
+          <Router>
+            <Switch>
+              <Redirect exact from="/" to="/home" />
+              <Route path="/explore">
+                <HomePage />
+              </Route>  
+              <Route path="/">
+                <DashboardPage />
+              </Route>
+            </Switch>   
+          </Router>  
+        </ThemeProvider>      
+      </div>
+  )
 }
 
 export default App;
