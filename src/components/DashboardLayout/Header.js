@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { logoutUser } from "../../store/actions/authActions";
+import UserAvatar from "../common/avatar/Avatar";
 
 const Header = () => {
   const { t } = useTranslation();
@@ -14,8 +15,8 @@ const Header = () => {
   const dispatch = useDispatch(null);
 
   return (
-    <div className="w-100">
-      <Grid container spacing={2} justify={isMobile ? "flex-end" : "flex-start"}>
+    <div className="w-100 justify-content-between d-flex">
+      <Grid container spacing={2} alignItems="center" justify={isMobile ? "flex-end" : "flex-start"}>
         {
           !isMobile && <Grid item xs={4}>
             <TextField
@@ -55,34 +56,40 @@ const Header = () => {
             </Button>
           </Grid>
         }
-        
-        <Grid item>
+      </Grid>
+      <Grid container spacing={1} justify="flex-end">       
           {
-            isMobile && <Button variant="text" color="default" className="text-black-50 rounded-0" style={{ minWidth: 30 }}>
-                <Search />        
-              </Button>
+            auth.isAuthenticated && <Grid item>
+              <UserAvatar />
+            </Grid>
           }
-          {
-            auth.isAuthenticated ? <>
-              <Button variant="contained" color="primary" onClick={() => {
-                dispatch(logoutUser());
-              }}>
-                Log out
-              </Button>              
-            </> : <>
-                <Button 
-                  variant={isMobile ? "text" : "outlined"} 
-                  color="primary"
-                  className={`border-2 ${isMobile && "text-black-50 rounded-0"}`} 
-                  style={{ minWidth: 30 }} 
-                  onClick={() => history.push('login')}
-                >
-                <Person />
-                {!isMobile && t('SIGN IN')}
-              </Button>
-            </>
-          }
-        </Grid>
+          <Grid item>
+            {
+              isMobile && <Button variant="text" color="default" className="text-black-50 rounded-0" style={{ minWidth: 30 }}>
+                  <Search />        
+                </Button>
+            }
+            {
+              auth.isAuthenticated ? <>
+                <Button variant="contained" color="primary" onClick={() => {
+                  dispatch(logoutUser());
+                }}>
+                  Log out
+                </Button>              
+              </> : <>
+                  <Button 
+                    variant={isMobile ? "text" : "outlined"} 
+                    color="primary"
+                    className={`border-2 ${isMobile && "text-black-50 rounded-0"}`} 
+                    style={{ minWidth: 30 }} 
+                    onClick={() => history.push('login')}
+                  >
+                  <Person />
+                  {!isMobile && t('SIGN IN')}
+                </Button>
+              </>
+            }
+          </Grid>
       </Grid>
     </div>
   )

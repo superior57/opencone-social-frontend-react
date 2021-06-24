@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { List, ListItemIcon, ListItem, ListItemText, Divider, Grid, Button, ListSubheader, makeStyles, Collapse, TextField, InputAdornment } from "@material-ui/core";
-import { navigationList, Categories } from "../../utils/navigationConfig";
+import { navigationList, Categories, adminNavigationList } from "../../utils/navigationConfig";
 import { Link } from "react-router-dom";
 import LogoComponent from "../common/logo";
 import JordanFlagImg from "../../assets/images/flags/jordan_flag.png";
@@ -33,6 +33,7 @@ const Navbar = () => {
   const dispatch = useDispatch(null);
   const theme = useSelector(store => store.theme);
   const { t, i18n } = useTranslation();
+  const { user } = useSelector(state => state.auth);
   
   const filteredCategories = () => {
     let filteredCategoryList = [];
@@ -138,6 +139,14 @@ const Navbar = () => {
       <List>
         {
           navigationList.map((d, i) => <Link to={d.link} className="text-decoration-none" key={'nav-list-' + i} >
+            <ListItem button={d.button} className={`text-${d.color}`}>               
+              <ListItemIcon>{d.icon}</ListItemIcon> 
+              <ListItemText primary={t(d.label)} />              
+            </ListItem>
+          </Link>)
+        }
+        {
+          user.role === "admin" && adminNavigationList.map((d, i) => <Link to={d.link} className="text-decoration-none" key={'nav-list-' + i} >
             <ListItem button={d.button} className={`text-${d.color}`}>               
               <ListItemIcon>{d.icon}</ListItemIcon> 
               <ListItemText primary={t(d.label)} />              

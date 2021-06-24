@@ -1,8 +1,9 @@
 import { Grid, Typography, TextField, Button, makeStyles } from '@material-ui/core';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
+import AvatarUpload from '../../components/common/avatar/AvatarUpload';
 import { registerUser } from "../../store/actions/authActions";
 
 const useStyles = makeStyles(theme => ({
@@ -16,6 +17,8 @@ const useStyles = makeStyles(theme => ({
 const RegisterPage = () => {
     const classes = useStyles();
     const { register, handleSubmit} = useForm();
+    const [avatar, setAvatar] = useState(null);
+    const [gender, setGender] = useState("male");
     const dispatch = useDispatch(null);
     const { errors } = useSelector(state => state);
     const auth = useSelector(state => state.auth);
@@ -29,7 +32,22 @@ const RegisterPage = () => {
     }, [auth])
 
     const onSubmit = data => {
-        dispatch(registerUser(data, history));
+        const formData = new FormData();
+        formData.append('name', data.name);
+        formData.append('email', data.email);
+        formData.append('password', data.password);
+        formData.append('password2', data.password2);
+        formData.append('avatar', avatar);
+        formData.append('gender', gender);
+
+        dispatch(registerUser(formData, history));
+    }
+
+    const handleChangeAvatar = avatar => {
+        setAvatar(avatar);
+    }
+    const handleChangeGender = genter => {
+        setGender(genter);
     }
 
     return (
@@ -46,6 +64,7 @@ const RegisterPage = () => {
                             label="Name"
                             variant="outlined"
                             fullWidth
+                            required
                             error={errors.name && true}
                             helperText={errors.name}
                         />
@@ -82,6 +101,7 @@ const RegisterPage = () => {
                             error={errors.password2 && true}
                             helperText={errors.password2}
                         />   
+                        <AvatarUpload className="mb-3" onChange={handleChangeAvatar} onChangeGender={handleChangeGender} />
                         <Button className="mb-3" variant="contained" color="primary" type="submit" size="large" fullWidth>
                             {"Register"}                          
                         </Button>

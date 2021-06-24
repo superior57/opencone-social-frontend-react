@@ -5,6 +5,10 @@ import profileReducer from './profileReducer';
 import postReducer from './postReducer';
 import themeReducer from "./themeReducer";
 import deviceReducer from './deviceReducer';
+import categoryReducer from './categoryReducer';
+import subCategoryReducer from './subCategoryReducer';
+import fieldReducer from './fieldReducer';
+import fieldSpecReducer from './fieldSpecReducer';
 
 export default combineReducers({
   auth: authReducer,
@@ -12,5 +16,9 @@ export default combineReducers({
   profile: profileReducer,
   post: postReducer,
   theme: themeReducer,
-  device: deviceReducer
+  device: deviceReducer,
+  category: categoryReducer,
+  subCategory: subCategoryReducer,
+  field: fieldReducer,
+  fieldSpec: fieldSpecReducer
 });

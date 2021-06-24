@@ -33,6 +33,23 @@ export const navigationList = [
     },
 ]
 
+export const adminNavigationList = [
+    {
+        label: "Category Management",
+        icon: <Home />,
+        link: "/admin/category-management",
+        button: true,
+        color: "dark"
+    },
+    {
+        label: "Field Management",
+        icon: <Home />,
+        link: "/admin/field-management",
+        button: true,
+        color: "dark"
+    }
+]
+
 export const Categories = [
     {
         label: "Cars and Bikes",

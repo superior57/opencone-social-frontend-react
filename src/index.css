@@ -15,6 +15,10 @@ body {
   background-color: #F9F9F9 !important;
 }
 
+body * {
+  transition: 300ms !important;
+}
+
 .body-wrapper {
   margin-top: 70px;
 }
