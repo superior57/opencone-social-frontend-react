@@ -1,4 +1,4 @@
-import { ADD_FIELDSPEC, DELETE_FIELD, DELETE_FIELDSPEC, GET_FIELDSPECS, UPDATE_FIELDSPEC } from "../actions/types";
+import { ADD_FIELDSPEC, DELETE_FIELDSPEC, GET_FIELDSPECS, UPDATE_FIELDSPEC } from "../actions/types";
 
 const initialState = {
     fieldSpecs: [],

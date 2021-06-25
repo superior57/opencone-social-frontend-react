@@ -17,6 +17,11 @@ const useStyles = makeStyles(theme => ({
     },
     tableContainer: {
         height: 'calc(100% - 64px)'
+    },
+    tableCell: {
+        '& > *': {
+            width: '100%'
+        }
     }
 }))
 
@@ -27,10 +32,12 @@ const CustomCatTable = ({
     header = "",
     selectedRow = null,
     size = "medium",
+    hiddenHeaderCols = [],
     onChangeRow = () => {},
     onDeleteRow = () => {},
     onAddNewValue = () => {},
-    onUpdateValue = () => {}
+    onUpdateValue = () => {},
+    editable = true
 }) => {
     
 
@@ -39,6 +46,7 @@ const CustomCatTable = ({
     const [focusingValue, setFocusingValue] = useState({});
     const [adding, setAdding] = useState(false);
     const [addingValue, setAddingValue] = useState({});
+    const headerCols = cols.filter(col => !hiddenHeaderCols.includes(col.field));
 
     useEffect(() => {
         if (selectedRow) onChangeRow(selectedRow);
@@ -80,6 +88,8 @@ const CustomCatTable = ({
     return <Paper variant="outlined" elevation={0} square className={classes.root}>
         <CustomCatToolbar 
             title={header}
+            adding={adding}
+            onAddValue={handleAddValue}
             onClickAddButton={handleClickNewButton}
         />
         <TableContainer className={classes.tableContainer}>
@@ -88,7 +98,7 @@ const CustomCatTable = ({
                     adding && <TableHead>
                         <TableRow >
                             {
-                                cols.map((col, index) => <TableCell key={"col-" + index} align={align} className="px-4">
+                                headerCols.map((col, index) => <TableCell key={"col-" + index} align={align} className={clsx("px-4", classes.tableCell)} colSpan={index === 0 ? hiddenHeaderCols.length + 1 : 1}>
                                     {
                                         col.render ? col.render(addingValue[col.field], value => {
                                             setAddingValue({...addingValue, [col.field]: value})
@@ -105,14 +115,11 @@ const CustomCatTable = ({
                                                     borderRadius: 0
                                                 }
                                             }}         
-                                        /> 
+                                        />
                                     }
                                 </TableCell>)
                             }
                             <TableCell align="right">
-                                <IconButton aria-label="Delete" onClick={handleAddValue} size="small">
-                                    <Save />
-                                </IconButton>
                                 <IconButton aria-label="Delete" onClick={handleCancelAddValue} size="small">
                                     <Close />
                                 </IconButton>
@@ -122,7 +129,7 @@ const CustomCatTable = ({
                 }
                 <TableBody>
                     {
-                        rows.map((row, index) => <TableRow 
+                        rows?.map((row, index) => <TableRow 
                             key={'table-row'+index}
                             className={clsx(classes.row, {
                                 [classes.selected]: row._id === selectedRow
@@ -132,7 +139,7 @@ const CustomCatTable = ({
                             onClick={() => onChangeRow(row._id)}
                         >
                             {
-                                cols.map((col, index) => <TableCell key={"tbody-col-" + index} align={align} className="px-4">
+                                cols.map((col, index) => <TableCell key={"tbody-col-" + index} align={align} className={clsx("px-4", classes.tableCell)}>
                                     {
                                         focusingId === row._id ? (col.render ? col.render(focusingValue[col.field], value => {
                                             setFocusingValue({...focusingValue, [col.field]: value})
@@ -153,14 +160,14 @@ const CustomCatTable = ({
                                     }
                                 </TableCell>)
                             }
-                            <TableCell align="right">
+                            <TableCell align="right" fullWidth>
                                 {
-                                    focusingId === row._id ? <IconButton aria-label="Delete" onClick={handleSaveValue} size="small">
+                                    editable && ( focusingId === row._id ? <IconButton aria-label="Delete" onClick={handleSaveValue} size="small">
                                         <Save />
                                     </IconButton> : 
                                     <IconButton aria-label="Delete" onClick={() => handleEditValue(row._id, row)} size="small">
                                         <Edit />
-                                    </IconButton>
+                                    </IconButton>)
                                 }
                                 <IconButton aria-label="Delete" onClick={() => onDeleteRow(row._id)} size="small">
                                     <Delete />

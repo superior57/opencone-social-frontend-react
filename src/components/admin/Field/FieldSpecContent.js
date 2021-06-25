@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getFieldSpecs } from "../../../store/actions/fieldSpecsReducer";
-import { addSubCategory, deleteSubCategory, getSubCategories, updateSubCategory } from "../../../store/actions/subCategoryActions";
+import { addFieldSpec, deleteFieldSpec, getFieldSpecs, updateFieldSpec } from "../../../store/actions/fieldSpecsActions";
 import CustomCatTable from "../../common/table/CustomCatTable"
 
 const cols = [
@@ -23,24 +22,24 @@ const FieldSpecContent = ({
         }
     }, [fieldId])
 
-    // const handleAddNewSubCategory = subCategoryData => {
-    //     dispatch(addSubCategory(categoryId, subCategoryData));
-    // }
-    // const handleUpdateSubCategory = (subCategoryId, subCategoryData) => {
-    //     dispatch(updateSubCategory(subCategoryId, subCategoryData));
-    // }
-    // const handleDeleteSubCategory = subCategoryId => {
-    //     dispatch(deleteSubCategory(subCategoryId));
-    // }
+    const handleAddNewFieldSpec = fieldSpecData => {
+        dispatch(addFieldSpec(fieldId, fieldSpecData));
+    }
+    const handleUpdateFieldSpec = (fieldSpecId, fieldSpecData) => {
+        dispatch(updateFieldSpec(fieldSpecId, fieldSpecData));
+    }
+    const handleDeleteFieldSpec = fieldSpeciId => {
+        dispatch(deleteFieldSpec(fieldSpeciId));
+    }
 
     return <>
         <CustomCatTable 
             header="Specifications"
             rows={fieldSpecs}
             cols={cols}
-            // onAddNewValue={handleAddNewSubCategory}
-            // onUpdateValue={handleUpdateSubCategory}
-            // onDeleteRow={handleDeleteSubCategory}
+            onAddNewValue={handleAddNewFieldSpec}
+            onUpdateValue={handleUpdateFieldSpec}
+            onDeleteRow={handleDeleteFieldSpec}
         />
     </>
 }

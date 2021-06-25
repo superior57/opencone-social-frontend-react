@@ -16,7 +16,7 @@ body {
 }
 
 body * {
-  transition: 300ms !important;
+  transition: 100ms !important;
 }
 
 .body-wrapper {

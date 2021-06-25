@@ -11,7 +11,10 @@ const cols = [
 ]
 
 const SubCategoryContent = ({
-    categoryId = null
+    categoryId = null,
+    value = null,
+    onChange = () => {},
+    onClearSelected = () => {}
 }) => {
     const dispatch = useDispatch(null);
     const { subCategories } = useSelector(state => state.subCategory);
@@ -29,6 +32,7 @@ const SubCategoryContent = ({
         dispatch(updateSubCategory(subCategoryId, subCategoryData));
     }
     const handleDeleteSubCategory = subCategoryId => {
+        onClearSelected();
         dispatch(deleteSubCategory(subCategoryId));
     }
 
@@ -37,6 +41,8 @@ const SubCategoryContent = ({
             header="Sub Category"
             rows={subCategories}
             cols={cols}
+            selectedRow={value}
+            onChangeRow={onChange}
             onAddNewValue={handleAddNewSubCategory}
             onUpdateValue={handleUpdateSubCategory}
             onDeleteRow={handleDeleteSubCategory}

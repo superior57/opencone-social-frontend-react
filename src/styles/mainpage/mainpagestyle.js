@@ -26,6 +26,8 @@ export const Contentdiv = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
+  padding-top: 10px;
+  padding-bottom: 10px;
 `;
 
 export const Footerdiv = styled.div`

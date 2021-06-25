@@ -1,9 +1,18 @@
 import { Toolbar, IconButton, Typography, Grid, makeStyles } from "@material-ui/core";
-import { green } from "@material-ui/core/colors";
-import { Add } from "@material-ui/icons";
+import { green, red } from "@material-ui/core/colors";
+import { Add, Save } from "@material-ui/icons";
 
 const useStyles = makeStyles(theme => ({
-    button: {
+    addButton: {
+        backgroundColor: red[400],
+        boxShadow: theme.shadows[3],
+        color: '#FFF',
+        '&:hover': {
+            backgroundColor: red[700],
+            boxShadow: theme.shadows[6],
+        }
+    },
+    saveButton: {
         backgroundColor: green[400],
         boxShadow: theme.shadows[3],
         color: '#FFF',
@@ -16,7 +25,9 @@ const useStyles = makeStyles(theme => ({
 
 const CustomCatToolbar = ({
     title = "",
-    onClickAddButton= () => {}
+    onClickAddButton= () => {},
+    adding = false,
+    onAddValue = () => {}
 }) => {
     const classes = useStyles();
     return <Toolbar>
@@ -27,9 +38,13 @@ const CustomCatToolbar = ({
                 </Typography>
             </Grid>    
             <Grid item>
-                <IconButton aria-label="Add" onClick={onClickAddButton} className={classes.button}>    
-                    <Add />      
-                </IconButton>
+                {
+                    adding ? <IconButton aria-label="Save" onClick={onAddValue} className={classes.saveButton}>    
+                        <Save />      
+                    </IconButton> : <IconButton aria-label="Add" onClick={onClickAddButton} className={classes.addButton}>    
+                        <Add />      
+                    </IconButton>
+                }
             </Grid>      
         </Grid>        
         

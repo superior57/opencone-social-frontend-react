@@ -22,11 +22,13 @@ const FieldManagement = () => {
                     onChange={fieldId => setSelectedField(fieldId)}
                 />
             </Grid>          
-            <Grid item xs={12} md={6}>
-                <FieldSpecContent
-                    // categoryId={selectedCategory}
-                />
-            </Grid>
+            {
+                selectedField && <Grid item xs={12} md={6}>
+                    <FieldSpecContent
+                        fieldId={selectedField}
+                    />
+                </Grid>
+            }
         </Grid>        
     </>
 }

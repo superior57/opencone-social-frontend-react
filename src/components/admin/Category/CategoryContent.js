@@ -11,7 +11,8 @@ const cols = [
 
 const CategoryContent = ({
     value = null,
-    onChange = () => {}
+    onChange = () => {},
+    onClearSelected = () => {}
 }) => {
     const dispatch = useDispatch(null);
     const { categories } = useSelector(state => state.category);
@@ -23,6 +24,7 @@ const CategoryContent = ({
         dispatch(updateCategory(id, data));
     }
     const handleDeleteCategory = id => {
+        onClearSelected();
         dispatch(deleteCategory(id));
     }
 
