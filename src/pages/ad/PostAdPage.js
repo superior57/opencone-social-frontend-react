@@ -7,6 +7,7 @@ import ContactInfoSection from '../../components/ad/ContactInfoSection';
 import PostDetailSection from '../../components/ad/PostDetailSection';
 import { getCategories } from '../../store/actions/categoryActions';
 import { useForm } from "react-hook-form";
+import { postAd } from '../../store/actions/adActions';
 
 const PostAdPage = () => {
     const dispatch = useDispatch(null);
@@ -33,16 +34,30 @@ const PostAdPage = () => {
             } else {                
                 newSpecs.push(spec);
             }
-        }); 
-        return {
+        });
+        const newData = {
             ...data,
             specs: newSpecs
         }
+        const newFormData = new FormData();
+        Object.keys(newData).forEach(d => {
+            if (d === "images") {
+                newData[d].forEach(img => {
+                    newFormData.append(d, img);
+                })
+            } else if (d === "specs") {
+                newFormData.append(d, JSON.stringify(newData[d]));
+            }            
+            else {
+                newFormData.append(d, newData[d]);
+            }
+        })
+        return newFormData;
     }
 
     const handleDataSubmit = () => {
         const adData = validateData();
-        console.log(adData);
+        dispatch(postAd(adData));
     }
 
     return <form onSubmit={handleSubmit(handleDataSubmit)}>
