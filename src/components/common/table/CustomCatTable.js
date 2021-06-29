@@ -160,7 +160,7 @@ const CustomCatTable = ({
                                     }
                                 </TableCell>)
                             }
-                            <TableCell align="right" fullWidth>
+                            <TableCell align="right">
                                 {
                                     editable && ( focusingId === row._id ? <IconButton aria-label="Delete" onClick={handleSaveValue} size="small">
                                         <Save />

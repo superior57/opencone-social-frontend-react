@@ -99,6 +99,7 @@ const DashboardPage = () => {
                     <Button variant="text" color="default" className="rounded-0 d-md-none px-0" style={{ minWidth: 0 }} onClick={() => setSidebarOpen(true)}>
                         <Dehaze />              
                     </Button>
+                    
                     <Header></Header>
                 </Headerdiv>
                 <Contentdiv className="px-2 px-md-4 order-1 order-md-0">

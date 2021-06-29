@@ -10,7 +10,7 @@ import {
 const initialSate = {
     categories: [],
     category: {},
-    loading: false
+    loading: false,
 }
 
 export default (state = initialSate, action) => {

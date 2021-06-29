@@ -9,7 +9,7 @@ const AuthRoute = ({
     // const dispatch = useDispatch(null);
     if (localStorage.getItem('jwtToken')) {
         // dispatch(checkAuthenticate());        
-        return <Route {...props} >{children}</Route>
+        return <Route exact {...props} >{children}</Route>
     } else {
         return <Redirect to="/login" />
     }

@@ -1,7 +1,8 @@
 import CategoryManagement from "../components/admin/Category/CategoryManagement"
 import FieldManagement from "../components/admin/Field/FieldManagement"
 import { default as Home } from "../components/DashboardLayout/Content"
-import PostAdPage from "../pages/ad/PostAdPage"
+import AdFindPage from "../pages/ad/AdFindPage"
+import AdPostPage from "../pages/ad/AdPostPage"
 import LoginPage from "../pages/auth/LoginPage"
 import RegisterPage from "../pages/auth/RegisterPage"
 import ProductPage from "../pages/dashboard/ProductPage"
@@ -38,7 +39,12 @@ export const routeConfig = {
         },
         {
             path: "/ad",
-            component: <PostAdPage />,
+            component: <AdPostPage />,
+            roles: ["client"]
+        },        
+        {
+            path: "/find",
+            component: <AdFindPage />,
             roles: ["client"]
         },
         {
@@ -50,7 +56,7 @@ export const routeConfig = {
             path: "/admin/field-management",
             component: <FieldManagement />,
             roles: ["admin"]
-        }
+        },
     ],
     adminRoutes: [
         

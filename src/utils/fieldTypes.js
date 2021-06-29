@@ -1,7 +1,8 @@
-export const FIELD_TYPE_MULTI_SELECT = "Multi Select";
 export const FIELD_TYPE_SELECT = "Select";
-export const FIELD_TYPE_RADIO = "Radio";
+export const FIELD_TYPE_MULTI_SELECT = "Multi Select";
 export const FIELD_TYPE_COLOR_SELECT = "Color Select";
+export const FIELD_TYPE_RANGE_SELECT = "Range Select"
+export const FIELD_TYPE_RADIO = "Radio";
 export const FIELD_TYPE_PRICE = "Price";
 
 export const fieldTypes = [
@@ -21,9 +22,13 @@ export const fieldTypes = [
         title: "Color",
         value: FIELD_TYPE_COLOR_SELECT
     },
+    // {
+    //     title: "Price",
+    //     value: FIELD_TYPE_PRICE
+    // },
     {
-        title: "Price",
-        value: FIELD_TYPE_PRICE
+        title: "Range Select",
+        value: FIELD_TYPE_RANGE_SELECT
     }
 ]
 

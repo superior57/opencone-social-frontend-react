@@ -11,6 +11,7 @@ import { SET_CURRENT_USER } from "./store/actions/types";
 import { routeConfig } from "./utils/routeConfig";
 import CustomRoute from "./components/Route/CustomRoute";
 import history from "./@history";
+// import ProgressBar from "./components/common/progress/ProgressBar";
 
 const App = () => { 
   const state = useSelector(state => state);
@@ -73,6 +74,7 @@ const App = () => {
   return (
       <div className={theme.direction === "rtl" ? "direction-rtl" : ""}>
         <ThemeProvider theme={theme}>
+          {/* <ProgressBar /> */}
           <Router history={history}>
             <Switch>
               <Redirect exact from="/" to="/home" />

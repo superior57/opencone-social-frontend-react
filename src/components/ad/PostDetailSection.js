@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import Field from "./Field";
-import { Grid, TextField } from "@material-ui/core";
+import { Grid, TextField, InputAdornment, Select, FormControl } from "@material-ui/core";
 import AdSectionPaper from '../common/AdSectionPaper';
 import { FIELD_TYPE_COLOR_SELECT } from '../../utils/fieldTypes';
 import { useEffect, useState } from 'react';
@@ -21,6 +21,7 @@ const PostDetailSection = ({ data, setData }) => {
     }, [fields])
 
     useEffect(() => {
+        console.log(details);
         setData({
             ...data,
             specs: details
@@ -74,6 +75,53 @@ const PostDetailSection = ({ data, setData }) => {
                     required  
                 />
             </Grid>         
+            <Grid item xs={12} md={6}>
+                <TextField
+                    label="Price"
+                    variant="outlined"
+                    fullWidth
+                    onChange={ev => setData({
+                        ...data,
+                        price: ev.target.value
+                    })}      
+                    required 
+                    type="number"
+                    InputProps={{
+                        endAdornment: <InputAdornment position="end" style={{ 
+                            minWidth: 80
+                        }}>
+                            <FormControl variant="outlined" fullWidth >
+                                <Select native onChange={ev => setData({
+                                        ...data,
+                                        currency: ev.target.value
+                                    })}
+                                    style={{
+                                        borderTopLeftRadius: 0,
+                                        borderBottomLeftRadius: 0
+                                    }}
+                                >
+                                    <option value="JOD">JOD</option>
+                                    <option value="USD">USD</option>
+                                </Select>
+                            </FormControl>
+                        </InputAdornment>,
+                        style: {
+                            paddingRight: 0
+                        }
+                    }} 
+                />
+            </Grid>
+            <Grid item xs={12} md={6}>
+                <TextField
+                    label="Choose city and neighbourhood"
+                    variant="outlined"
+                    fullWidth
+                    onChange={ev => setData({
+                        ...data,
+                        city: ev.target.value
+                    })}      
+                />
+            </Grid>
         </Grid>
     </AdSectionPaper>
 }

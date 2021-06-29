@@ -14,7 +14,7 @@ const FieldsContent = ({
     const dispatch = useDispatch(null);
     const { fields } = useSelector(state => state.field);
     const { subCategory } = useSelector(state => state.subCategory);
-    const { fields: subCategoryFields } = subCategory;
+    // const { fields: subCategoryFields } = subCategory;
 
     const cols = [
         {
@@ -52,7 +52,7 @@ const FieldsContent = ({
     return <>
         <CustomCatTable 
             header="Added Fields"
-            rows={subCategoryFields || []}
+            rows={subCategory?.fields || []}
             cols={cols}
             editable={false}
             onAddNewValue={handleAddFieldToSubCategory}

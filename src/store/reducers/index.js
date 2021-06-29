@@ -9,6 +9,8 @@ import categoryReducer from './categoryReducer';
 import subCategoryReducer from './subCategoryReducer';
 import fieldReducer from './fieldReducer';
 import fieldSpecReducer from './fieldSpecReducer';
+import adReducer from './adReducer';
+import dialogReducer from './dialogReducer';
 
 export default combineReducers({
   auth: authReducer,
@@ -20,5 +22,7 @@ export default combineReducers({
   category: categoryReducer,
   subCategory: subCategoryReducer,
   field: fieldReducer,
-  fieldSpec: fieldSpecReducer
+  fieldSpec: fieldSpecReducer,
+  ad: adReducer,
+  dialog: dialogReducer
 });

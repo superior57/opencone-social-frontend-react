@@ -34,7 +34,8 @@ const useStyles = makeStyles(theme => ({
     avatar: {
         width: theme.spacing(9),
         height: theme.spacing(9),
-        border: 'solid 1px #787878'
+        border: 'solid 1px #787878',
+        backgroundColor: 'white'
     }
 }))
 
@@ -43,16 +44,18 @@ const BadgeAvatar = ({
 }) => {
     const classes = useStyles();
     return (
-        <StyledBadge
-            overlap="circle"
-            anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
-            }}
-            variant="dot"
-      >
-        <Avatar alt="avatar" src={src} className={classes.avatar} />
-      </StyledBadge>
+        <div>
+            <StyledBadge
+                overlap="circle"
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                }}
+                variant="dot"
+            >
+                <Avatar alt="avatar" src={src} className={classes.avatar} />
+            </StyledBadge>
+        </div>
     )
 }
 

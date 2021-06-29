@@ -49,3 +49,13 @@ export const GET_FIELDSPECS = "GET_FIELDSPECS";
 export const UPDATE_FIELDSPEC = "UPDATE_FIELDSPEC";
 export const DELETE_FIELDSPEC = "DELETE_FIELDSPEC";
 
+// AD
+export const SET_SEARCH = "SET_SEARCH";
+export const GET_ADS = "GET_ADS";
+export const ADD_AD = "ADD_AD";
+export const AD_LOADING = "AD_LOADING";
+
+// Dialog
+export const START_PROGRESS = "START_PROGRESS";
+export const END_PROGRESS = "END_PROGRESS";
+

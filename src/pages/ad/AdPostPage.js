@@ -8,8 +8,9 @@ import PostDetailSection from '../../components/ad/PostDetailSection';
 import { getCategories } from '../../store/actions/categoryActions';
 import { useForm } from "react-hook-form";
 import { postAd } from '../../store/actions/adActions';
+import { useHistory } from 'react-router-dom';
 
-const PostAdPage = () => {
+const AdPostPage = () => {
     const dispatch = useDispatch(null);
     const [data, setData] = useState({
         title: "",
@@ -18,38 +19,24 @@ const PostAdPage = () => {
         contactEmail: ""
     });
     const { handleSubmit } = useForm();
+    const history = useHistory();
 
     useEffect(() => {
         dispatch(getCategories());
     }, [])    
 
     const validateData = () => {
-        const specs = Object.values(data.specs);
-        const newSpecs = [];
-        specs.forEach(spec => {
-            if (typeof spec === 'object'){
-                spec.forEach(ss => {
-                    newSpecs.push(ss);
-                })
-            } else {                
-                newSpecs.push(spec);
-            }
-        });
-        const newData = {
-            ...data,
-            specs: newSpecs
-        }
         const newFormData = new FormData();
-        Object.keys(newData).forEach(d => {
+        Object.keys(data).forEach(d => {
             if (d === "images") {
-                newData[d].forEach(img => {
+                data[d].forEach(img => {
                     newFormData.append(d, img);
                 })
             } else if (d === "specs") {
-                newFormData.append(d, JSON.stringify(newData[d]));
+                newFormData.append(d, JSON.stringify(data[d]));
             }            
             else {
-                newFormData.append(d, newData[d]);
+                newFormData.append(d, data[d]);
             }
         })
         return newFormData;
@@ -57,7 +44,7 @@ const PostAdPage = () => {
 
     const handleDataSubmit = () => {
         const adData = validateData();
-        dispatch(postAd(adData));
+        dispatch(postAd(adData, history));
     }
 
     return <form onSubmit={handleSubmit(handleDataSubmit)}>
@@ -78,4 +65,4 @@ const PostAdPage = () => {
     </form>
 }
 
-export default PostAdPage;
+export default AdPostPage;

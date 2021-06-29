@@ -1,6 +1,6 @@
 import { Button, makeStyles } from "@material-ui/core";
 import React, {  } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { blue } from "@material-ui/core/colors";
 
 import {
@@ -42,12 +42,18 @@ const Footer = () => {
   const classes = useStyles();  
   const { t } = useTranslation();
   const { isMobile } = useSelector(store => store.device);
+  const history = useHistory();
 
   return (
     <Footermenudiv>
-      <Button variant="contained" className={classes.addButton} style={{
-        marginTop: isMobile ? 40 : -40
-      }}>
+      <Button 
+        variant="contained" 
+        className={classes.addButton} 
+        style={{
+          marginTop: isMobile ? 40 : -40
+        }} 
+        onClick={() => history.push('/ad')}
+      >
         <Add />
       </Button>
       <Menudiv>
