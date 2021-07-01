@@ -5,6 +5,7 @@ import {
     GET_CATEGORIES,
     DELETE_CATEGORY,
     UPDATE_CATEGORY,
+    CATEGORY_INIT,
 } from "../actions/types";
 
 const initialSate = {
@@ -15,6 +16,11 @@ const initialSate = {
 
 export default (state = initialSate, action) => {
     switch (action.type) {
+        case CATEGORY_INIT:
+            return {
+                ...state,
+                category: ""
+            }
         case CATEGORY_LOADING:
             return {
                 ...state,
@@ -29,8 +35,7 @@ export default (state = initialSate, action) => {
         case GET_CATEGORY: 
             return {
                 ...state,
-                category: action.payload,
-                loading: false
+                category: action.payload
             }
         case ADD_CATEGORY:
             return {

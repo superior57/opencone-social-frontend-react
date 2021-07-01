@@ -5,10 +5,11 @@ import AddPhotoSection from '../../components/ad/AddPhotoSection';
 import ChooseSection from '../../components/ad/ChooseSection';
 import ContactInfoSection from '../../components/ad/ContactInfoSection';
 import PostDetailSection from '../../components/ad/PostDetailSection';
-import { getCategories } from '../../store/actions/categoryActions';
 import { useForm } from "react-hook-form";
 import { postAd } from '../../store/actions/adActions';
 import { useHistory } from 'react-router-dom';
+// import { getCategories } from '../../store/actions/categoryActions';
+// import { getCities } from '../../store/actions/cityActions';
 
 const AdPostPage = () => {
     const dispatch = useDispatch(null);
@@ -16,13 +17,17 @@ const AdPostPage = () => {
         title: "",
         description: "",
         contactName: "",
-        contactEmail: ""
+        contactEmail: "",
+        currency: "JOD",
+        city: "",
+        subCity: ""
     });
     const { handleSubmit } = useForm();
     const history = useHistory();
 
     useEffect(() => {
-        dispatch(getCategories());
+        // dispatch(getCategories());
+        // dispatch(getCities());
     }, [])    
 
     const validateData = () => {
@@ -45,6 +50,7 @@ const AdPostPage = () => {
     const handleDataSubmit = () => {
         const adData = validateData();
         dispatch(postAd(adData, history));
+        // console.log(data);
     }
 
     return <form onSubmit={handleSubmit(handleDataSubmit)}>

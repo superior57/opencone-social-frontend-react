@@ -9,6 +9,8 @@ import ProgressCircle from '../../components/common/progress/ProgressCircle';
 
 const AdFindPage = () => {
     const { subCategory } = useSelector(state => state.subCategory);
+    const { category } = useSelector(state => state.category);
+    const { city } = useSelector(state => state.city);
     const { progress } = useSelector(state => state.dialog);
     const { ads } = useSelector(state => state.ad);
     const [state, setState] = useState({});
@@ -21,24 +23,55 @@ const AdFindPage = () => {
     useEffect(() => {
         if (Object.values(subCategory).length > 0) {
             setState({
+                ...state,
                 category: subCategory.category,
                 subCategory: subCategory._id,
             });
+        } else {
+            setState({
+                ...state,
+                subCategory: "",
+            });
             dispatch(getAds({
-                category: subCategory.category,
-                subCategory: subCategory._id,
+                ...state,
+                specs,
+                subCategory: ""
             }));
-            dispatch({
-                type: SET_SEARCH,
-                payload: {
-                    category: subCategory.category,
-                    subCategory: subCategory._id,
-                }
-            })
         }
     }, [subCategory])
+
     useEffect(() => {
-        if (Object.values(specs).length > 0 || state.price) {
+        if (typeof category === 'string') {
+            setState({
+                ...state,
+                category,
+                subCategory: ""
+            });
+            dispatch(getAds({
+                ...state,
+                specs,
+                category,
+                subCategory: ""
+            }));
+        }
+    }, [category])
+
+    useEffect(() => {
+        if (typeof city === 'string') {
+            setState({
+                ...state,
+                city
+            });
+            dispatch(getAds({
+                ...state,
+                city,
+                specs
+            }));
+        }
+    }, [city])
+
+    useEffect(() => {
+        if (Object.values(specs).length > 0 || state.price || state.subCategory || state.city) {
             dispatch(getAds({
                 ...state,
                 specs
@@ -116,10 +149,10 @@ const AdFindPage = () => {
             </Grid>
         }
         {
-            progress ? <Grid item xs={12} md={12} lg={8}><ProgressCircle /></Grid> :
+            progress ? <Grid item xs={12} md={12}><ProgressCircle /></Grid> :
             ads.length > 0 ? ads.map((ad, index) => <Grid key={"ad-item-" + index} item xs={12} md={12} lg={8}>
                 <AdItemPaper data={ad} />           
-            </Grid>) : <Grid item xs={12} md={12} lg={8} className="text-center py-4">
+            </Grid>) : <Grid item xs={12} md={12} className="text-center py-4">
                 <Typography variant="subtitle1" color="initial" align="center">No result</Typography>
             </Grid>
         }

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import { Switch, Route, BrowserRouter as Router, Redirect } from "react-router-dom";
 import DashboardPage from "./pages/dashboard/DashboardPage";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core";
@@ -6,12 +6,10 @@ import { blue, green } from "@material-ui/core/colors";
 import { useSelector, useDispatch } from "react-redux";
 import { UPDATE_DEVICE } from "./store/actions/types";
 import { isMobile as isMobileFnc } from "./utils/device";
-import jwtDecode from "jwt-decode";
-import { SET_CURRENT_USER } from "./store/actions/types";
 import { routeConfig } from "./utils/routeConfig";
 import CustomRoute from "./components/Route/CustomRoute";
 import history from "./@history";
-// import ProgressBar from "./components/common/progress/ProgressBar";
+import { checkAuthenticate } from "./store/actions/authActions";
 
 const App = () => { 
   const state = useSelector(state => state);
@@ -51,19 +49,9 @@ const App = () => {
     })
   }
 
-  const stayLogin = () => {
-    if (localStorage.getItem('jwtToken')) {
-      const decoded = jwtDecode(localStorage.getItem('jwtToken'));
-      dispatch({
-        type: SET_CURRENT_USER,
-        payload: decoded
-      });
-    }
-  }
-
-  useEffect(() => {
+  useLayoutEffect(() => {
+    dispatch(checkAuthenticate());
     resizeListener();
-    stayLogin();  
     window.addEventListener('resize', resizeListener);
     return () => {
       window.removeEventListener('resize', resizeListener);

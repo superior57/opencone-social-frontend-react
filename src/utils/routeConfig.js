@@ -1,11 +1,12 @@
 import CategoryManagement from "../components/admin/Category/CategoryManagement"
+import CityManagement from "../components/admin/City/CityManagement"
 import FieldManagement from "../components/admin/Field/FieldManagement"
 import { default as Home } from "../components/DashboardLayout/Content"
 import AdFindPage from "../pages/ad/AdFindPage"
 import AdPostPage from "../pages/ad/AdPostPage"
 import LoginPage from "../pages/auth/LoginPage"
 import RegisterPage from "../pages/auth/RegisterPage"
-import ProductPage from "../pages/dashboard/ProductPage"
+import AdDetailsPage from "../pages/dashboard/AdDetailsPage"
 import Explore from "../pages/HomePage"
 
 export const routeConfig = {
@@ -33,8 +34,8 @@ export const routeConfig = {
             roles: []
         },
         {
-            path: "/product",
-            component: <ProductPage />,
+            path: "/ads/:id",
+            component: <AdDetailsPage />,
             roles: ["client"]
         },
         {
@@ -43,7 +44,7 @@ export const routeConfig = {
             roles: ["client"]
         },        
         {
-            path: "/find",
+            path: "/ads",
             component: <AdFindPage />,
             roles: ["client"]
         },
@@ -57,6 +58,11 @@ export const routeConfig = {
             component: <FieldManagement />,
             roles: ["admin"]
         },
+        {
+            path: "/admin/city-management",
+            component: <CityManagement />,
+            roles: ["admin"]
+        }
     ],
     adminRoutes: [
         

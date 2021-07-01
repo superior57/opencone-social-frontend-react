@@ -67,7 +67,7 @@ const Footer = () => {
             </Link>
           </Menuulli>
           <Menuulli>
-            <Link to="/explore" className={classes.menuItem}>
+            <Link to="/ads" className={classes.menuItem}>
               <Menuliicondiv>
                 <i className="fa fa-search"></i>
               </Menuliicondiv>

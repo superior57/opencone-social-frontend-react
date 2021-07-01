@@ -1,4 +1,4 @@
-import { AD_LOADING, GET_ADS, SET_SEARCH } from "../actions/types";
+import { AD_INIT, AD_LOADING, GET_AD, GET_ADS, SET_SEARCH } from "../actions/types";
 
 const initialState = {
     search: {},
@@ -24,6 +24,16 @@ export default (state = initialState, action) => {
                 ...state,
                 ads: action.payload,
                 loading: false
+            }
+        case GET_AD:
+            return {
+                ...state,
+                ad: action.payload
+            }
+        case AD_INIT:
+            return {
+                ...state,
+                ad: {}
             }
         default:
             return state;

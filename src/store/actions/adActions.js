@@ -1,5 +1,5 @@
 import axios from "axios"
-import { END_PROGRESS, GET_ADS, GET_ERRORS, START_PROGRESS } from "./types";
+import { AD_INIT, CLEAR_ERRORS, END_PROGRESS, GET_AD, GET_ADS, GET_ERRORS, START_PROGRESS, SUBCATEGORY_INIT } from "./types";
 
 const API = "/api/ads/";
 
@@ -11,11 +11,17 @@ const API = "/api/ads/";
 export const postAd = (adData, history) => dispatch => {
     dispatch({
         type: START_PROGRESS
-    })
+    });    
+    dispatch({
+        type: CLEAR_ERRORS
+    });
     axios.put(API, adData)
         .then(res => {
             dispatch({
                 type: END_PROGRESS
+            });
+            dispatch({
+                type: SUBCATEGORY_INIT
             });
             history.push('/find');
         })
@@ -51,6 +57,30 @@ export const getAds = search => dispatch => {
                 type: GET_ERRORS,
                 payload: err.response.data
             })
+            dispatch({
+                type: END_PROGRESS
+            });
         })
 }
 
+export const getAd = adId => dispatch => {
+    dispatch({
+        type: CLEAR_ERRORS
+    });
+    dispatch({
+        type: AD_INIT
+    })
+    axios.get(API + adId)
+        .then(res => {
+            dispatch({
+                type: GET_AD,
+                payload: res.data
+            });
+        })
+        .catch(err => {
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+        })
+}

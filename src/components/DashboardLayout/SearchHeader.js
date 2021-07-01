@@ -1,55 +1,70 @@
-import { Grid, TextField, InputAdornment, FormControl, Select, Button, MenuItem, InputLabel, makeStyles } from "@material-ui/core";
+import { Grid, TextField, InputAdornment, Button, IconButton } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
-import { Search } from "@material-ui/icons";
-import { useEffect, useState } from "react";
-import NestedMenuItem from "material-ui-nested-menu-item";
+import { Search, Refresh } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { getSubCategory } from "../../store/actions/subCategoryActions";
 import { useHistory } from "react-router-dom";
 import { getAds } from "../../store/actions/adActions";
+import NestedSelect from "../common/select/NestedSelect";
+import { CATEGORY_INIT, CITY_INIT, GET_CATEGORY, GET_CITY, SUBCATEGORY_INIT } from "../../store/actions/types";
+import { useState } from "react";
 
 
-const useStyles = makeStyles(theme => ({
-    formControl: {
-        minWidth: 150,
-    },
-    nestedMenuItem: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        backgroundColor: 'white !important',
-        '&:hover': {
-            backgroundColor: 'rgba(0, 0, 0, 0.08) !important',
-        }
-    }
-}))
-
-const searchPage = "/find";
+const searchPage = "/ads";
 
 const SearchHeader = () => {
     const { t } = useTranslation();
-    const classes = useStyles();
     const { categories } = useSelector(state => state.category);
+    const { cities } = useSelector(state => state.city);
     const { search } = useSelector(state => state.ad);
-    const [selectedCategory, setSelectedCategory] = useState("");
-    const [selectedSubCategory, setSelectedSubCategory] = useState("")
-    const [tempComponent, setTempComponent] = useState("");
-    const [menuOpen, setMenuOpen] = useState(null);
     const dispatch = useDispatch(null);
     const history = useHistory();
-
-    useEffect(() => {
-        dispatch(getSubCategory(selectedSubCategory));
-    }, [selectedSubCategory])
+    const [clear, setClear] = useState(false);
 
     const handleClickSearchButton = ev => {
-        history.push(searchPage);
         dispatch(getAds(search));    
+        history.push(searchPage);
+    }
+    const handleChangeSubCategory = subCategory => {
+        setClear(false);
+        if(subCategory) {
+            dispatch(getSubCategory(subCategory));
+        }
+    }
+    const handleChangeCategory = category => {
+        setClear(false);
+        if (category) {
+            dispatch({
+                type: GET_CATEGORY,
+                payload: category
+            })
+        }
+    }
+    const handleChangeCity = city => {
+        setClear(false);
+        dispatch({
+            type: GET_CITY,
+            payload: city
+        })
+    }
+    const clearSearch = () => {
+        if (!clear) {
+            dispatch({
+                type: SUBCATEGORY_INIT
+            });
+            dispatch({
+                type: CATEGORY_INIT
+            });
+            dispatch({
+                type: CITY_INIT
+            })
+            setClear(true);
+        }
+        // dispatch(getAds());
     }
 
-    return <Grid container spacing={1}>
-        <Grid item xs={12}>
-            <Grid container spacing={1}>
-                <Grid item xs={4}>
+    return <Grid container spacing={2} alignItems="center">
+                <Grid item xs={12} md={4}>
                     <TextField
                     hiddenLabel
                     variant="outlined"
@@ -64,79 +79,46 @@ const SearchHeader = () => {
                     fullWidth    
                     />
                 </Grid>
-                <Grid item xs={3}>
-                    <FormControl size="small" fullWidth>
-                    <Select
-                        native
-                        variant="outlined"   
-                    >
-                        <option value="">All city</option>
-                        <option value={10}>Ten</option>
-                        <option value={20}>Twenty</option>
-                        <option value={30}>Thirty</option>
-                    </Select>
-                    </FormControl>
+                <Grid item  xs={12} md={3}>
+                    <NestedSelect 
+                        label="All Cities"
+                        parentData={cities}
+                        childrenKey="subCities"
+                        onChangeParent={handleChangeCity}
+                        clear={clear}
+                        nested={false}
+                    />
                 </Grid>
-                <Grid item xs={3}>
-                    <FormControl variant="outlined" className={classes.formControl} size="small" fullWidth>
-                        <InputLabel id="category-filter-label">All categories</InputLabel>
-                        <Select
-                            labelId="category-filter-label"
-                            value={selectedCategory || selectedSubCategory}
-                            onChange={ev => setSelectedCategory(ev.target.value)}
-                            label="All categories"
-                            open={menuOpen === 'category'}
-                            onOpen={() => setMenuOpen('category')}
-                            onClose={() => setMenuOpen(null)}
-                        >
-                            <MenuItem value="">
-                                <em>None</em>
-                            </MenuItem>
-                            {
-                                categories.map((cat, c_index) => cat.subCategories?.length > 0 ? <NestedMenuItem
-                                    key={"cat-item-" + c_index}
-                                    label={cat.name}
-                                    parentMenuOpen
-                                    className={classes.nestedMenuItem}
-                                    value=""
-                                >
-                                    {
-                                        cat.subCategories.map((subCat, sc_index) => <MenuItem 
-                                            key={"subcat-item-" + sc_index}
-                                            value={subCat._id}
-                                            onClick={() => {
-                                                setSelectedCategory(null);
-                                                setSelectedSubCategory(subCat._id);
-                                                setMenuOpen(null);
-                                                setTempComponent(<MenuItem value={subCat._id} style={{ display: 'none' }}>{subCat.name}</MenuItem>)
-                                            }}
-                                            selected={selectedSubCategory === subCat._id}
-                                        >
-                                            {subCat.name}
-                                        </MenuItem>)
-                                    }
-                                </NestedMenuItem> : 
-                                <MenuItem key={"cat-item-" + c_index} value={cat._id} >{cat.name}</MenuItem>)
-                            }
-                            {
-                                tempComponent
-                            }
-                        </Select>
-                    </FormControl>
+                <Grid item xs={12} md={3}>
+                    <NestedSelect 
+                        label="All categories"
+                        parentData={categories}
+                        childrenKey="subCategories"
+                        onChangeChildren={handleChangeSubCategory}
+                        onChangeParent={handleChangeCategory}
+                        clear={clear}
+                    />
                 </Grid>
-                <Grid item xs={2}>
-                    <Button 
-                        variant="contained" 
-                        color="primary" 
-                        fullWidth 
-                        onClick={handleClickSearchButton}
-                    >
-                    {t('Search')}            
-                    </Button>
-                </Grid>      
+                <Grid item xs={12} md={2}>
+                    <Grid container spacing={0} alignItems="center" justify="space-between">
+                        <Grid item xs={10}>
+                            <Button 
+                                variant="contained" 
+                                color="primary" 
+                                fullWidth 
+                                onClick={handleClickSearchButton}
+                            >
+                            {t('Search')}            
+                            </Button>
+                        </Grid>
+                        <Grid item xs={2} className="d-flex d-lg-block justify-content-end">
+                            <IconButton aria-label="Refresh" onClick={clearSearch}>
+                                <Refresh />
+                            </IconButton>
+                        </Grid>                      
+                    </Grid>
+                </Grid>                     
             </Grid>
-        </Grid>
-    </Grid>
 }
 
 export default SearchHeader;

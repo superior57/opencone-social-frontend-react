@@ -23,7 +23,8 @@ const LoginPage = () => {
 
     useEffect(() => {
         if (localStorage.getItem('jwtToken')) {
-            history.goBack();
+            // if (history.goBack()) history.goBack();
+            history.push('/home');
         }
     }, [auth])
 

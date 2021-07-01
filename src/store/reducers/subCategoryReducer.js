@@ -1,4 +1,4 @@
-import { ADD_FIELD_TO_SUBCATEGORY, ADD_SUBCATEGORY, DELETE_FIELD_FROM_SUBCATEGORY, DELETE_SUBCATEGORY, GET_SUBCATEGORIES, GET_SUBCATEGORY, SUBCATEGORY_LOADING, UPDATE_SUBCATEGORY } from "../actions/types";
+import { ADD_FIELD_TO_SUBCATEGORY, ADD_SUBCATEGORY, DELETE_FIELD_FROM_SUBCATEGORY, DELETE_SUBCATEGORY, GET_SUBCATEGORIES, GET_SUBCATEGORY, SUBCATEGORY_INIT, SUBCATEGORY_LOADING, UPDATE_SUBCATEGORY } from "../actions/types";
 
 
 const initialState = {
@@ -10,6 +10,11 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch (action.type) {
+        case SUBCATEGORY_INIT:
+            return {
+                ...state,
+                subCategory: {}
+            }
         case SUBCATEGORY_LOADING:
             return {
                 ...state,

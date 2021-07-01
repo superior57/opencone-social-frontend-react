@@ -130,14 +130,15 @@ const Field = ({
                         variant="outlined" 
                         multiple={FIELD_TYPE_MULTI_SELECT === type} 
                         onChange={ev => FIELD_TYPE_MULTI_SELECT === type ? handleChangeMultiSelect(ev) : onChange(ev.target.value) }
+                        required
                     >
-                        <option aria-label="None" value="" disabled></option>
+                        <option aria-label="None" value=""></option>
                         {
                             datas?.map((data, index) => <option key={"spec-item-" + index} value={data.name}>{data.name}</option>)
                         }
                     </Select>; break;
             case FIELD_TYPE_RADIO:
-                mainUI = <RadioGroup aria-label="" name="" className="flex-row px-3" onChange={ev => onChange(datas.find(d => d._id === ev.target.value).name)}>            
+                mainUI = <RadioGroup aria-label="" name="" className="flex-row px-3" onChange={ev => onChange(datas.find(d => d._id === ev.target.value).name)} required>            
                         {
                             datas?.map((data, index) => <FormControlLabel key={"spec-item-" + index} value={data._id} label={data.name} labelPlacement="end" control={<Radio  />} />)
                         }
@@ -163,7 +164,7 @@ const Field = ({
                 mainUI = <></>;
         }
     }
-    return <FormControl fullWidth className="" {...otherProps}>
+    return <FormControl fullWidth className="" {...otherProps} required>
       <Typography variant="subtitle2" className="mb-2" >{ name }</Typography>
       { mainUI }
       <FormHelperText></FormHelperText>

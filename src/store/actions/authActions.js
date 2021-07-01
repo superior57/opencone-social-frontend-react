@@ -65,15 +65,19 @@ export const logoutUser = () => dispatch => {
 
 export const checkAuthenticate = () => dispatch => {
   const token = localStorage.getItem('jwtToken');
-  const decoded = jwt_decode(token);
-  axios.get('/api/users/current', decoded)
-    .then(res => {
-      dispatch({
-        type: SET_CURRENT_USER,
-        payload: res.data
-      })      
-    })
-    .catch(error => {
-      dispatch(logoutUser());
-    })
+  if (token) {
+    setAuthToken(token);
+    const decoded = jwt_decode(token);
+    
+    axios.get('/api/users/current', decoded)
+      .then(res => {
+        dispatch({
+          type: SET_CURRENT_USER,
+          payload: res.data
+        })      
+      })
+      .catch(error => {
+        dispatch(logoutUser());
+      })
+  }
 }

@@ -12,7 +12,11 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const DetailedProfile = () => {
+const DetailedProfile = ({
+    title = "",
+    postId = "",
+    description = ""
+}) => {
     const classes = useStyles();
     const { t } = useTranslation();
     return (
@@ -67,33 +71,20 @@ const DetailedProfile = () => {
             <Grid container spacing={1}>
                 <Grid item xs={12}>
                     <Typography variant="h5" color="textPrimary">
-                        مشروع النخيل 19 ( إسكان المنصور )
-                        / شقة 180م فاخرة للبيع في منطقة حي النخيل 
+                        {title}
                     </Typography> 
                 </Grid>
                 <Grid item xs={12}>
                     <Typography className="mb-4">
                         <RecentActors />
                         &nbsp;
-                        Post ID: 149918283
+                        Post ID: {postId}
                     </Typography>
                 </Grid>
                 <Grid item xs={12}>
-                    #إسكان_المنصور
-
-                    ترحب شركة اسكان المنصور بزبائنها الكرام لزيارة ارقى وأفخم مشاريعنا الجاهزة للتسليم .
-
-                    ‏ ‏‏مشروع النخيل 19 ( 3 نوم 1 ماستر ) 180 متر مربع
-
-                    الشقق المتبقية:
-                    1- الطابق الأول يمين
-                    2- الطابق الأول يسار
-                    3- الطابق الثاني يمين
-                    4- الطابق الثاني يسار
-
-                    ‏ حاضرون معكم بأجمل التصميم الحديثة، و بأروع اطلالة، وفي أرقى مناطق عمان الغربية.
-                    يسر إسكان المنصور بادارة المهندس محمد منصور الأعلان عن توقيع اتفاقية تعاون مشتركة مع بنك صفوة
-                    الاسلامي بتمويل عملائنا حصراً لغاية 90٪؜ باسعار مر...
+                    {
+                        description
+                    }
                 </Grid>
                 <Grid item xs={12}>
                     <Button variant="text" color="primary" size="small" className="float-end">

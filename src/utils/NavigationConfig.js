@@ -47,6 +47,13 @@ export const adminNavigationList = [
         link: "/admin/field-management",
         button: true,
         color: "dark"
+    },
+    {
+        label: "City Management",
+        icon: <Home />,
+        link: "/admin/city-management",
+        button: true,
+        color: "dark"
     }
 ]
 

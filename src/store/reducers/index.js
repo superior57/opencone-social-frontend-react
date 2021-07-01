@@ -11,6 +11,8 @@ import fieldReducer from './fieldReducer';
 import fieldSpecReducer from './fieldSpecReducer';
 import adReducer from './adReducer';
 import dialogReducer from './dialogReducer';
+import cityReducer from './cityReducer';
+import subCityReducer from './subCityReducer';
 
 export default combineReducers({
   auth: authReducer,
@@ -24,5 +26,7 @@ export default combineReducers({
   field: fieldReducer,
   fieldSpec: fieldSpecReducer,
   ad: adReducer,
-  dialog: dialogReducer
+  dialog: dialogReducer,
+  city: cityReducer,
+  subCity: subCityReducer
 });

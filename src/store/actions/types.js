@@ -26,6 +26,7 @@ export const GET_CATEGORY = "GET_CATEGORY";
 export const GET_CATEGORIES = "GET_CATEGORIES";
 export const DELETE_CATEGORY = "DELETE_CATEGORYS";
 export const CATEGORY_LOADING = "CATEGORY_LOADING";
+export const CATEGORY_INIT = "CATEGORY_INIT";
 
 // Sub Category
 export const ADD_SUBCATEGORY = "ADD_SUBCATEGORY";
@@ -36,6 +37,8 @@ export const DELETE_FIELD_FROM_SUBCATEGORY = "DELETE_FIELD_FROM_SUBCATEGORY";
 export const UPDATE_SUBCATEGORY = "UPDATE_SUBCATEGORY";
 export const DELETE_SUBCATEGORY = "DELETE_SUBCATEGORY";
 export const SUBCATEGORY_LOADING = "SUBCATEGORY_LOADING";
+export const SUBCATEGORY_INIT = "SUBCATEGORY_INIT";
+
 
 // Field
 export const ADD_FIELD = "ADD_FIELD";
@@ -54,8 +57,24 @@ export const SET_SEARCH = "SET_SEARCH";
 export const GET_ADS = "GET_ADS";
 export const ADD_AD = "ADD_AD";
 export const AD_LOADING = "AD_LOADING";
+export const GET_AD = "GET_AD";
+export const AD_INIT = "AD_INIT";
 
 // Dialog
 export const START_PROGRESS = "START_PROGRESS";
 export const END_PROGRESS = "END_PROGRESS";
 
+// City
+export const ADD_CITY = "ADD_CITY";
+export const GET_CITIES = "GET_CITIES";
+export const UPDATE_CITY = "UPDATE_CITY";
+export const DELETE_CITY = "DELETE_CITY";
+export const GET_CITY = "GET_CITY";
+export const CITY_INIT = "CITY_INIT";
+
+// Sub City
+export const ADD_SUB_CITY = "ADD_SUB_CITY";
+export const GET_SUB_CITIES = "GET_SUB_ITIES";
+export const UPDATE_SUB_CITY = "UPDATE_SUB_CITY";
+export const DELETE_SUB_CITY = "DELETE_SUB_CITY";
+export const GET_SUB_CITY = "GET_SUB_CITY";

@@ -4,12 +4,17 @@ import { Grid, TextField, InputAdornment, Select, FormControl } from "@material-
 import AdSectionPaper from '../common/AdSectionPaper';
 import { FIELD_TYPE_COLOR_SELECT } from '../../utils/fieldTypes';
 import { useEffect, useState } from 'react';
+import NestedSelect from '../common/select/NestedSelect';
 
 const PostDetailSection = ({ data, setData }) => {
     const { subCategory } = useSelector(state => state.subCategory);
+    const { cities } = useSelector(state => state.city);
     const { fields } = subCategory;
     const [details, setDetails] = useState({});
+    const [city, setCity] = useState("");
+    const [subCity, setSubCity] = useState("");
 
+    
     useEffect(() => {
         if (fields) {
             let newDetails = {};
@@ -19,14 +24,19 @@ const PostDetailSection = ({ data, setData }) => {
             setDetails(newDetails);
         }
     }, [fields])
-
     useEffect(() => {
-        console.log(details);
         setData({
             ...data,
             specs: details
         });
     }, [details])
+    useEffect(() => {
+        setData({
+            ...data,
+            city,
+            subCity
+        })
+    }, [city, subCity])
     
     return <AdSectionPaper
         title="Post details"
@@ -38,7 +48,7 @@ const PostDetailSection = ({ data, setData }) => {
                 item xs={12} 
                 md={field.type === FIELD_TYPE_COLOR_SELECT ? 12 : 6}
             >
-                <Field 
+                <Field
                     type={field.type}
                     name={field.name}
                     datas={field.specs}
@@ -112,14 +122,14 @@ const PostDetailSection = ({ data, setData }) => {
                 />
             </Grid>
             <Grid item xs={12} md={6}>
-                <TextField
+                <NestedSelect 
                     label="Choose city and neighbourhood"
-                    variant="outlined"
-                    fullWidth
-                    onChange={ev => setData({
-                        ...data,
-                        city: ev.target.value
-                    })}      
+                    parentData={cities}
+                    childrenKey="subCities"
+                    onChangeChildren={value => setSubCity(value)}
+                    onChangeParent={value => setCity(value)}
+                    size="medium"
+                    required
                 />
             </Grid>
         </Grid>
