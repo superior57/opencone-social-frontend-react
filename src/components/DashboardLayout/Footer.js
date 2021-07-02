@@ -37,6 +37,8 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
+const dd = `sdfsdfsdf`
+
 
 const Footer = () => {
   const classes = useStyles();  
@@ -75,7 +77,7 @@ const Footer = () => {
             </Link>
           </Menuulli>
           <Menuulli>
-            <Link to="/#" className={classes.menuItem}>
+            <Link to="/chat" className={classes.menuItem}>
               <Menuliicondiv>
                 <i className="fa fa-wechat"></i>
               </Menuliicondiv>
