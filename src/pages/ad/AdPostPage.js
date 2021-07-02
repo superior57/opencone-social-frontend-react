@@ -24,11 +24,12 @@ const AdPostPage = () => {
     });
     const { handleSubmit } = useForm();
     const history = useHistory();
+    
 
     useEffect(() => {
         // dispatch(getCategories());
         // dispatch(getCities());
-    }, [])    
+    }, [data])    
 
     const validateData = () => {
         const newFormData = new FormData();

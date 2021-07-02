@@ -37,9 +37,6 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const dd = `sdfsdfsdf`
-
-
 const Footer = () => {
   const classes = useStyles();  
   const { t } = useTranslation();

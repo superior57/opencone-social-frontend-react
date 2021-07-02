@@ -150,11 +150,13 @@ const AdFindPage = () => {
         }
         {
             progress ? <Grid item xs={12} md={12}><ProgressCircle /></Grid> :
-            ads.length > 0 ? ads.map((ad, index) => <Grid key={"ad-item-" + index} item xs={12} md={12} lg={8}>
-                <AdItemPaper data={ad} />           
+            (ads.length > 0 ? ads.map((ad, index) => <Grid key={"ad-item-" + index} item xs={12} md={12} lg={8}>
+                <AdItemPaper 
+                    data={ad} 
+                />           
             </Grid>) : <Grid item xs={12} md={12} className="text-center py-4">
                 <Typography variant="subtitle1" color="initial" align="center">No result</Typography>
-            </Grid>
+            </Grid>)
         }
     </Grid>
 }

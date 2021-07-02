@@ -6,6 +6,7 @@ import AdFindPage from "../pages/ad/AdFindPage"
 import AdPostPage from "../pages/ad/AdPostPage"
 import LoginPage from "../pages/auth/LoginPage"
 import RegisterPage from "../pages/auth/RegisterPage"
+import ChatPage from "../pages/chat/ChatPage"
 import AdDetailsPage from "../pages/dashboard/AdDetailsPage"
 import Explore from "../pages/HomePage"
 
@@ -62,6 +63,11 @@ export const routeConfig = {
             path: "/admin/city-management",
             component: <CityManagement />,
             roles: ["admin"]
+        },
+        {
+            path: '/chat',
+            component: <ChatPage />,
+            roles: ["client"]
         }
     ],
     adminRoutes: [

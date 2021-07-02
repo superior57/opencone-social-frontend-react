@@ -28,7 +28,8 @@ export default (state = initialState, action) => {
         case GET_AD:
             return {
                 ...state,
-                ad: action.payload
+                ad: action.payload,
+                loading: false
             }
         case AD_INIT:
             return {

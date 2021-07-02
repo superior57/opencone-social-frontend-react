@@ -30,3 +30,5 @@ body * {
 legend {
   float: unset;
 }
+
+@import "~react-image-gallery/styles/css/image-gallery.css";

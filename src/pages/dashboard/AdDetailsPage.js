@@ -1,5 +1,5 @@
 import { Button, Grid, makeStyles, Typography } from '@material-ui/core';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ColorButton from '../../components/common/button/ColorButton';
 import ImageContent from '../../components/Product/ImageContent';
 import { WhatsApp, Sms, Phone, ArrowBackIos, ArrowForwardIos, Home } from "@material-ui/icons";
@@ -11,12 +11,13 @@ import Popular from '../../components/Product/Popular';
 import Comments from '../../components/Product/Comments';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { getAd } from '../../store/actions/adActions';
+import { getAd, getAds } from '../../store/actions/adActions';
 import ProgressCircle from '../../components/common/progress/ProgressCircle';
 import NotFound from '../../components/errors/NotFound';
 import MaleImg from "../../assets/images/avatar/male.png";
 import FemaleImg from "../../assets/images/avatar/female.png";
 import moment from 'moment';
+import { AD_INIT } from '../../store/actions/types';
 
 const useStyles = makeStyles(theme => ({
     detailedDiv: {
@@ -34,26 +35,39 @@ const useStyles = makeStyles(theme => ({
 const AdDetailsPage = () => {
     const classes = useStyles();
     const history = useHistory();
-    const adId = history.location.pathname.replace('/ads/', '').trim();
+    const [currentId, setCurrentId] = useState(history.location.pathname.replace('/ads/', '').trim());
     const dispatch = useDispatch(null);
     const errors = useSelector(state => state.errors);
-    const { ad } = useSelector(state => state.ad);
+    const { ad, ads, loading } = useSelector(state => state.ad);
     const { isMobile } = useSelector(store => store.device);
-
     const defaultAvatar = ad.user?.gender === "female" ? FemaleImg : MaleImg;
 
-    console.log(ad);
+    const currentIndex = ads.findIndex(dd => dd._id === currentId);
+    const previousId = currentIndex > 0 ? ads[currentIndex - 1]._id : false;
+    const nextId = currentIndex < ads.length - 1 ? ads[currentIndex + 1]._id : false;
+
+
+    console.log(nextId);
     const dateFrom = moment(ad.user?.date);
 
     const headerTitle = {
         title: ad.title,
         icon: <Home />,
         directories: [
-            "Home",
-            ad.subCity?.city.name + " - " + ad.subCity?.name,
-            ad.sub_category?.category.name,
-            ad.sub_category?.name
+            "Home"
         ]
+    }
+
+    let dirCity = ""
+    if (ad.subCity) {
+        dirCity = ad.subCity?.city.name + " - " + ad.subCity?.name;
+    }
+    if (dirCity) {
+        headerTitle.directories.push(dirCity);
+    }
+    if (ad.sub_category) {
+        headerTitle.directories.push(ad.sub_category?.category.name);
+        headerTitle.directories.push(ad.sub_category?.name);
     }
 
     const productData = {
@@ -169,8 +183,14 @@ const AdDetailsPage = () => {
     }
 
     useEffect(() => {
-        dispatch(getAd(adId));
-    }, [adId])
+        dispatch({
+            type: AD_INIT
+        })
+    }, [])
+    useEffect(() => {
+        dispatch(getAds());
+        dispatch(getAd(currentId));
+    }, [currentId])
     
     if (errors.adnotfound) {
         return <NotFound text="404" />
@@ -195,13 +215,26 @@ const AdDetailsPage = () => {
                 </Typography>
             </Grid>
         </Grid>            
-        <ImageContent 
-            main={productData.images[0]}
-            images={productData.images}
-        />
+        {
+            !loading ? <ImageContent 
+                main={productData.images[0]}
+                images={productData.images}
+            /> : <ProgressCircle />
+        }
         <Grid container justify="space-between" alignItems="center" className="py-4">
             <Grid item xs={2}>
-                <Button variant="text" color="primary" className="text-capitalize" fontSize="small" size="small">
+                <Button 
+                    variant="text" 
+                    color="primary" 
+                    className="text-capitalize" 
+                    fontSize="small" 
+                    size="small" 
+                    disabled={!previousId} 
+                    onClick={() => {
+                        history.push("/ads/" + previousId);
+                        setCurrentId(previousId);
+                    }}
+                >
                     <ArrowBackIos fontSize="small" />
                     {!isMobile && "Previous Ad"}
                 </Button> 
@@ -229,7 +262,18 @@ const AdDetailsPage = () => {
                 </Grid>
             </Grid>
             <Grid item xs={2} className="d-flex justify-content-end">
-                <Button variant="text" color="primary" className="text-capitalize" fontSize="small" size="small">
+                <Button 
+                    variant="text" 
+                    color="primary" 
+                    className="text-capitalize" 
+                    fontSize="small" 
+                    size="small"
+                    disabled={!nextId}
+                    onClick={() => {
+                        history.push("/ads/" + nextId);
+                        setCurrentId(nextId);
+                    }}
+                >
                     {!isMobile && "Next Ad"}
                     &nbsp;
                     <ArrowForwardIos fontSize="small" />

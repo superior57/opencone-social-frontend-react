@@ -7,7 +7,8 @@ import BadgeAvatar from '../../common/BadgeAvatar';
 import AdOutlineButton from '../../common/button/AdOutlineButton';
 import MaleImg from "../../../assets/images/avatar/male.png";
 import FemaleImg from "../../../assets/images/avatar/female.png";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { getFileType } from '../../../utils/functions';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -29,9 +30,7 @@ const AdItemPaper = ({
     const { specs, user } = data;
     const { avatar, gender } = user;
     const history = useHistory();
-
     const defaultImg = gender === "female" ? FemaleImg : MaleImg;
-
     var arrSpec = [],
         tempSpec = []
 
@@ -47,14 +46,17 @@ const AdItemPaper = ({
                     tempSpec.push(spec);
             }
         });
-    } 
+    }
     tempSpec.unshift(data.sub_category.name);
     arrSpec.push(tempSpec.join(" | "));      
     
     return <Paper square elevation={0} variant="outlined" className={clsx("p-2", classes.root)}>
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={5} md={4} lg={3} onClick={() => history.push("/ads/" + data._id)}>
-                    <img src={data.images[0]} width="100%" height="100%" alt="ad" />    
+                     {
+                         getFileType(data.images[0]) === "image" ? <img src={data.images[0]} width="100%" height="100%" alt="ad" style={{ maxHeight: 300 }} /> :
+                         <video src={data.images[0]} width="100%" height="100%" alt="ad" autoPlay muted style={{ maxHeight: 300 }} />   
+                     }
                 </Grid>
                 <Grid item xs={12} sm={7} md={8} lg={9} className="d-flex flex-column justify-content-between ad-details">
                     <Grid container spacing={1} className="mb-2 h-100">
