@@ -7,7 +7,8 @@ const ProgressCircle = () => {
         justify="center"
         alignItems="center"
         style={{
-            minHeight: 400
+            minHeight: 400,
+            background: '#FFFFFF90'
         }}
     >
         <Grid item>

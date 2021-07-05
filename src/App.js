@@ -1,18 +1,23 @@
-import React, { useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import { Switch, Route, BrowserRouter as Router, Redirect } from "react-router-dom";
 import DashboardPage from "./pages/dashboard/DashboardPage";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core";
 import { blue, green } from "@material-ui/core/colors";
 import { useSelector, useDispatch } from "react-redux";
-import { UPDATE_DEVICE } from "./store/actions/types";
+import { ADD_CHAT_USER, NEW_MESSAGE, UPDATE_DEVICE } from "./store/actions/types";
 import { isMobile as isMobileFnc } from "./utils/device";
 import { routeConfig } from "./utils/routeConfig";
 import CustomRoute from "./components/Route/CustomRoute";
 import history from "./@history";
 import { checkAuthenticate } from "./store/actions/authActions";
+import { isEmpty } from "./utils/functions";
+import socketIOClient from "socket.io-client";
+import { SOCKET_ADD_CONTACT, SOCKET_RECEIVED_MESSAGE } from "./utils/event.types";
+
 
 const App = () => { 
   const state = useSelector(state => state);
+  const auth = useSelector(state => state.auth);
   const dispatch = useDispatch(null);
   const theme = createMuiTheme({
     palette: {
@@ -57,6 +62,28 @@ const App = () => {
       window.removeEventListener('resize', resizeListener);
     }  
   }, [])
+
+  useEffect(() => {
+    if (!isEmpty(auth.user)) {
+      const socket = socketIOClient();
+      socket.on(SOCKET_RECEIVED_MESSAGE, (chat) => {
+        if (chat.receiver._id === auth.user.id) {
+            dispatch({
+                type: NEW_MESSAGE,
+                payload: chat
+            })
+        }
+      });
+      socket.on(SOCKET_ADD_CONTACT, (contact) => {
+        if (contact.user._id === auth.user.id) {
+          dispatch({
+            type: ADD_CHAT_USER,
+            payload: contact
+          })
+        }
+      })
+    }
+  }, [auth.user])
 
   const { landingLayoutRoutes : routes } = routeConfig;
   return (

@@ -80,7 +80,7 @@ const ImageContent = ({
                 <Grid container spacing={2} className={classes.gallery} alignItems="center">
                     <Grid item md={7} className={clsx("w-100 align-items-center", classes.mainGrid)}>
                         <Grid container spacing={2} className="h-100">
-                            <Grid item className={clsx("w-100 h-100", classes.galleryConent)} onClick={() => setOpen(true)}>                                
+                            <Grid item className={clsx("w-100 h-100")} >                                
                                 {
                                     getFileType(main) === "image" ? <img src={main} width="100%" height="100%" alt="" style={{
                                         objectFit: 'cover',

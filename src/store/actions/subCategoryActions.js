@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ADD_FIELD_TO_SUBCATEGORY, ADD_SUBCATEGORY, DELETE_FIELD_FROM_SUBCATEGORY, DELETE_SUBCATEGORY, GET_ERRORS, GET_SUBCATEGORIES, GET_SUBCATEGORY, SUBCATEGORY_LOADING, UPDATE_SUBCATEGORY } from "./types";
 
-const API = "/api/sub-categories/"
+const API = "/api/sub-categories"
 
 /**
  * Get Sub Categories
@@ -32,7 +32,7 @@ export const getSubCategories = categoryId => dispatch => {
  * @returns 
  */
 export const addSubCategory = (categoryId, subCategoryData) => dispatch => {
-    axios.put(API + categoryId, subCategoryData)
+    axios.put(API + "/" + categoryId, subCategoryData)
         .then(res => {
             dispatch({
                 type: ADD_SUBCATEGORY,
@@ -54,7 +54,7 @@ export const addSubCategory = (categoryId, subCategoryData) => dispatch => {
  * @returns 
  */
 export const updateSubCategory = (subCategoryId, subCategoryData) => dispatch => {
-    axios.post(API + subCategoryId, subCategoryData)
+    axios.post(API + "/" + subCategoryId, subCategoryData)
         .then(res => {
             dispatch({
                 type: UPDATE_SUBCATEGORY,
@@ -75,7 +75,7 @@ export const updateSubCategory = (subCategoryId, subCategoryData) => dispatch =>
  * @returns 
  */
 export const deleteSubCategory = subCategoryId => dispatch => {
-    axios.delete(API + subCategoryId)
+    axios.delete(API + "/" + subCategoryId)
         .then(res => {
             dispatch({
                 type: DELETE_SUBCATEGORY,
@@ -91,7 +91,7 @@ export const deleteSubCategory = subCategoryId => dispatch => {
 }
 
 export const getSubCategory = subCategoryId => dispatch => {
-    axios.get(API + "details/" + subCategoryId)
+    axios.get(API + "/details/" + subCategoryId)
         .then(res => {
             dispatch({
                 type: GET_SUBCATEGORY,

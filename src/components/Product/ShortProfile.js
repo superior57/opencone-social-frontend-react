@@ -24,7 +24,8 @@ const ShortProfile = ({
     dateFrom = "",
     reviews = 0,
     phoneNumber = "",
-    generalTips = []
+    generalTips = [],
+    gender = ""
 
 }) => {    
     const classes = useStyles();
@@ -46,7 +47,7 @@ const ShortProfile = ({
                     </IconButton>
                 </Grid>
                 <Grid item md={12}>
-                    <BadgeAvatar src={avatar} />
+                    <BadgeAvatar src={avatar} gender={gender} />
                 </Grid>
                 <Grid item md={12} className="my-auto">
                     <Typography variant="subtitle1" color="primary">

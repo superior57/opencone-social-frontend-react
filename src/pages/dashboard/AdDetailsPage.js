@@ -14,8 +14,6 @@ import { useHistory } from 'react-router-dom';
 import { getAd, getAds } from '../../store/actions/adActions';
 import ProgressCircle from '../../components/common/progress/ProgressCircle';
 import NotFound from '../../components/errors/NotFound';
-import MaleImg from "../../assets/images/avatar/male.png";
-import FemaleImg from "../../assets/images/avatar/female.png";
 import moment from 'moment';
 import { AD_INIT } from '../../store/actions/types';
 
@@ -40,16 +38,10 @@ const AdDetailsPage = () => {
     const errors = useSelector(state => state.errors);
     const { ad, ads, loading } = useSelector(state => state.ad);
     const { isMobile } = useSelector(store => store.device);
-    const defaultAvatar = ad.user?.gender === "female" ? FemaleImg : MaleImg;
-
     const currentIndex = ads.findIndex(dd => dd._id === currentId);
     const previousId = currentIndex > 0 ? ads[currentIndex - 1]._id : false;
     const nextId = currentIndex < ads.length - 1 ? ads[currentIndex + 1]._id : false;
-
-
-    console.log(nextId);
     const dateFrom = moment(ad.user?.date);
-
     const headerTitle = {
         title: ad.title,
         icon: <Home />,
@@ -71,44 +63,44 @@ const AdDetailsPage = () => {
     }
 
     const productData = {
-        images: ad.images,
-        address: [
+        images: ad.images || [],
+        specs: [
             {
                 title: "City",
-                value: "Amman"
+                value: ad.city?.name || ad.subCity?.city.name
             },
             {
                 title: "Neighborhood",
-                value: "Airport Road - Nakheel Village"
+                value: ad.subCity?.name
             },
-            {
-                title: "Number of rooms",
-                value: "3 Bedrooms"
-            },
-            {
-                title: "Number of bathrooms",
-                value: "4 Bathrooms"
-            },
-            {
-                title: "Surface Area",
-                value: "180 m2"
-            },
-            {
-                title: "Floor",
-                value: "AmSecond Floorman"
-            },
-            {
-                title: "Age",
-                value: "0 - 11 months"
-            },
-            {
-                title: "Furnished/Unfurnished:",
-                value: "Unfurnished"
-            },
-            {
-                title: "Payment Method",
-                value: "Cash Only"
-            },
+            // {
+            //     title: "Number of rooms",
+            //     value: "3 Bedrooms"
+            // },
+            // {
+            //     title: "Number of bathrooms",
+            //     value: "4 Bathrooms"
+            // },
+            // {
+            //     title: "Surface Area",
+            //     value: "180 m2"
+            // },
+            // {
+            //     title: "Floor",
+            //     value: "AmSecond Floorman"
+            // },
+            // {
+            //     title: "Age",
+            //     value: "0 - 11 months"
+            // },
+            // {
+            //     title: "Furnished/Unfurnished:",
+            //     value: "Unfurnished"
+            // },
+            // {
+            //     title: "Payment Method",
+            //     value: "Cash Only"
+            // },
         ],
         adList: [
             {
@@ -169,7 +161,8 @@ const AdDetailsPage = () => {
             },
         ],
         shortProfile: {
-            avatar: ad.user?.avatar || defaultAvatar,
+            avatar: ad.user?.avatar,
+            gender: ad.user?.gender,
             name: ad.user?.name,
             dateFrom: dateFrom.format('MM-DD-yyyy'),
             reviews: 0,
@@ -181,6 +174,11 @@ const AdDetailsPage = () => {
             ]
         }
     }
+
+    productData.specs = [
+        ...productData.specs,
+        ...ad.fieldData || []
+    ]
 
     useEffect(() => {
         dispatch({
@@ -291,7 +289,7 @@ const AdDetailsPage = () => {
                         />
                     </Grid>           
                     <Grid item md={5}>
-                        <AddressInformation data={productData.address} /> 
+                        <AddressInformation data={productData.specs} /> 
                     </Grid>
                     <Grid item md={11} lg={10} xl={9}>
                         <AllShopAds data={productData.adList} />
@@ -312,6 +310,7 @@ const AdDetailsPage = () => {
                     reviews={productData.shortProfile.reviews}
                     phoneNumber={productData.shortProfile.phoneNumber}
                     generalTips={productData.shortProfile.generalTips}
+                    gender={productData.shortProfile.gender}
                 />
             </Grid>
         </Grid>

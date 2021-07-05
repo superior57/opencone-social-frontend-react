@@ -78,3 +78,12 @@ export const GET_SUB_CITIES = "GET_SUB_ITIES";
 export const UPDATE_SUB_CITY = "UPDATE_SUB_CITY";
 export const DELETE_SUB_CITY = "DELETE_SUB_CITY";
 export const GET_SUB_CITY = "GET_SUB_CITY";
+
+// Chat
+export const GET_CONTACTS = "GET_CONTACTS";
+export const ADD_CHAT_USER = "ADD_CHAT_USER";
+export const GET_CHAT_MESSAGES = "GET_CHAT_MESSAGES";
+export const SEND_MESSAGE = "SEND_MESSAGE";
+export const NEW_MESSAGE = "NEW_MESSAGE";
+export const LOADING_CHAT = "LOADING_CHAT";
+export const CREATE_SOCKET = "CREATE_SOCKET";

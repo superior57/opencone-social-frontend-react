@@ -5,10 +5,10 @@ import clsx from 'clsx';
 import { colors } from '../../../utils/fieldTypes';
 import BadgeAvatar from '../../common/BadgeAvatar';
 import AdOutlineButton from '../../common/button/AdOutlineButton';
-import MaleImg from "../../../assets/images/avatar/male.png";
-import FemaleImg from "../../../assets/images/avatar/female.png";
 import { useHistory } from "react-router-dom";
 import { getFileType } from '../../../utils/functions';
+import { useDispatch, useSelector } from 'react-redux';
+import { addContact } from '../../../store/actions/chatActions';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -30,7 +30,9 @@ const AdItemPaper = ({
     const { specs, user } = data;
     const { avatar, gender } = user;
     const history = useHistory();
-    const defaultImg = gender === "female" ? FemaleImg : MaleImg;
+    const dispatch = useDispatch(null);
+    const { contacts } = useSelector(state => state.chat);
+    const auth = useSelector(state => state.auth);
     var arrSpec = [],
         tempSpec = []
 
@@ -49,6 +51,14 @@ const AdItemPaper = ({
     }
     tempSpec.unshift(data.sub_category.name);
     arrSpec.push(tempSpec.join(" | "));      
+
+    const handleClickChatButton = ev => {
+        if (!contacts.find(contact => contact.receiver._id === user._id) && user._id !== auth.user.id) {
+            dispatch(addContact(user._id, history));
+        } else {
+            history.push('/chat');
+        }
+    }
     
     return <Paper square elevation={0} variant="outlined" className={clsx("p-2", classes.root)}>
             <Grid container spacing={2}>
@@ -68,7 +78,7 @@ const AdItemPaper = ({
                         </Grid>          
                         <Grid item md={4} className="w-100 d-flex flex-md-column align-items-end justify-content-between">
                             <Typography variant="h6" className="text-danger">{data.price || 0} {data.currency || 'JOD'}</Typography>
-                            <BadgeAvatar src={avatar || defaultImg} />
+                            <BadgeAvatar src={avatar} gender={gender} />
                         </Grid>        
                     </Grid>
                     <Grid container spacing={1}>
@@ -83,7 +93,7 @@ const AdItemPaper = ({
                             </AdOutlineButton>
                         </Grid>  
                         <Grid item xs={4}>
-                            <AdOutlineButton fullWidth>
+                            <AdOutlineButton fullWidth onClick={handleClickChatButton}>
                                 <Forum color="primary" /> &nbsp; Chat
                             </AdOutlineButton>
                         </Grid>               

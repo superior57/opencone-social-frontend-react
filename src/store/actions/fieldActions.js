@@ -1,7 +1,7 @@
 import axios from "axios"
 import { ADD_FIELD, DELETE_FIELD, GET_ERRORS, GET_FIELDS, UPDATE_FIELD } from "./types";
 
-const API = "/api/fields/";
+const API = "/api/fields";
 
 /**
  * Get Fields
@@ -51,7 +51,7 @@ export const addField = fieldData => dispatch => {
  * @returns 
  */
 export const updateField = (fieldId, fieldData) => dispatch => {
-    axios.post(API + fieldId, fieldData)
+    axios.post(API + "/" + fieldId, fieldData)
         .then(res => {
             dispatch({
                 type: UPDATE_FIELD,
@@ -72,7 +72,7 @@ export const updateField = (fieldId, fieldData) => dispatch => {
  * @returns 
  */
 export const deleteField = fieldId => dispatch => {
-    axios.delete(API + fieldId)
+    axios.delete(API + "/" + fieldId)
         .then(res => {
             dispatch({
                 type: DELETE_FIELD,

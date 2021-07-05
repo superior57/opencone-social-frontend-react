@@ -1,18 +1,30 @@
-import axios from "axios";
-import { ADD_CITY, DELETE_CITY, GET_CITIES, GET_ERRORS, UPDATE_CITY } from "./types";
+import axios from "axios"
+import { ADD_CHAT_USER, GET_CHAT_MESSAGES, GET_CONTACTS, GET_ERRORS, LOADING_CHAT, SEND_MESSAGE } from "./types";
 
+const API = "/api/chat/";
 
-const API = "/api/cities";
-
-/**
- * Get all cities
- * @returns 
- */
-export const getCities = () => dispatch => {
-    axios.get(API)
+export const addContact = (receiverId, history) => dispatch => {
+    axios.put("/api/contacts/", {receiverId})
         .then(res => {
             dispatch({
-                type: GET_CITIES,
+                type: ADD_CHAT_USER,
+                payload: res.data
+            });
+            history.push('/chat');
+        })
+        .catch(err => {
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+        })
+}
+
+export const getContacts = () => dispatch => {
+    axios.get('/api/contacts/')
+        .then(res => {
+            dispatch({
+                type: GET_CONTACTS,
                 payload: res.data
             })
         })
@@ -24,16 +36,15 @@ export const getCities = () => dispatch => {
         })
 }
 
-/**
- * Add new City
- * @param {object} cityData 
- * @returns 
- */
-export const addCity = cityData => dispatch => {
-    axios.put(API, cityData)
+export const getMessages = receiverId => dispatch => {
+    console.log('getting messages');
+    dispatch({
+        type: LOADING_CHAT
+    });
+    axios.get(API + receiverId)
         .then(res => {
             dispatch({
-                type: ADD_CITY,
+                type: GET_CHAT_MESSAGES,
                 payload: res.data
             })
         })
@@ -45,39 +56,12 @@ export const addCity = cityData => dispatch => {
         })
 }
 
-/**
- * Update City
- * @param {uuid} id 
- * @param {object} cityData 
- * @returns 
- */
-export const updateCity = (id, cityData) => dispatch => {
-    axios.post(API + "/" + id, cityData)
+export const sendMessage = (receiverId, message) => dispatch => {
+    axios.put(API + receiverId, {message})
         .then(res => {
             dispatch({
-                type: UPDATE_CITY,
+                type: SEND_MESSAGE,
                 payload: res.data
-            })
-        })
-        .catch(err => {
-            dispatch({
-                type: GET_ERRORS,
-                payload: err.response.data
-            })
-        })
-}
-
-/**
- * Delete city
- * @param {uuid} id 
- * @returns 
- */
-export const deleteCity = id => dispatch => {
-    axios.delete(API + "/" + id)
-        .then(res => {
-            dispatch({
-                type: DELETE_CITY,
-                payload: id
             })
         })
         .catch(err => {

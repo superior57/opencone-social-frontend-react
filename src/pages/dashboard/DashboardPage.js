@@ -70,11 +70,14 @@ const DashboardPage = () => {
                 })}
                 classes={{
                     paper: clsx({
-                    [classes.drawerOpen]: sidebarOpen,
-                    [classes.drawerClose]: !sidebarOpen && !device.isMobile,
+                        [classes.drawerOpen]: sidebarOpen,
+                        [classes.drawerClose]: !sidebarOpen && !device.isMobile,
                     }),
                 }}
-                onClose={() => setSidebarOpen(false)}
+                onClose={() => setSidebarOpen(false)}                
+                ModalProps={{
+                    keepMounted: true
+                }}
             >   
                 <div className={theme.direction === "rtl" ? "text-start" : "text-end"}>
                     {

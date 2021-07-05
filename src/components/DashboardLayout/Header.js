@@ -29,6 +29,9 @@ const Header = () => {
                 padding: 30
               }
             }} 
+            ModalProps={{
+              keepMounted: true
+            }}
           >
             <SearchHeader />   
           </Drawer> 

@@ -2,7 +2,7 @@ import axios from "axios";
 import { ADD_SUB_CITY, GET_ERRORS, GET_SUB_CITIES, UPDATE_SUB_CITY, DELETE_SUB_CITY } from "./types";
 
 
-const API = "/api/sub-cities/";
+const API = "/api/sub-cities";
 
 /**
  * Get all sub cities
@@ -10,7 +10,7 @@ const API = "/api/sub-cities/";
  * @returns 
  */
 export const getSubCities = cityId => dispatch => {
-    axios.get(API + cityId)
+    axios.get(API + "/" + cityId)
         .then(res => {
             dispatch({
                 type: GET_SUB_CITIES,
@@ -32,7 +32,7 @@ export const getSubCities = cityId => dispatch => {
  * @returns 
  */
 export const addSubCity = (cityId, subCityData) => dispatch => {
-    axios.put(API + cityId, subCityData)
+    axios.put(API + "/" + cityId, subCityData)
         .then(res => {
             dispatch({
                 type: ADD_SUB_CITY,
@@ -54,7 +54,7 @@ export const addSubCity = (cityId, subCityData) => dispatch => {
  * @returns 
  */
 export const updateSubCity = (id, subCityData) => dispatch => {
-    axios.post(API + id, subCityData)
+    axios.post(API + "/" + id, subCityData)
         .then(res => {
             dispatch({
                 type: UPDATE_SUB_CITY,
@@ -75,7 +75,7 @@ export const updateSubCity = (id, subCityData) => dispatch => {
  * @returns 
  */
 export const deleteSubCity = id => dispatch => {
-    axios.delete(API + id)
+    axios.delete(API + "/" + id)
         .then(res => {
             dispatch({
                 type: DELETE_SUB_CITY,

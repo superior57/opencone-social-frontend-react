@@ -38,7 +38,10 @@ const SidebarComponent = ({
                 paper: clsx({
                     [classes.drawerOpen]: open
                 }),
-            }}     
+            }}    
+            ModalProps={{
+              keepMounted: true
+            }} 
         >
             <div 
                 role="presentation"

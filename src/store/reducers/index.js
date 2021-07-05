@@ -13,6 +13,7 @@ import adReducer from './adReducer';
 import dialogReducer from './dialogReducer';
 import cityReducer from './cityReducer';
 import subCityReducer from './subCityReducer';
+import chatReducer from './chatReducer';
 
 export default combineReducers({
   auth: authReducer,
@@ -28,5 +29,6 @@ export default combineReducers({
   ad: adReducer,
   dialog: dialogReducer,
   city: cityReducer,
-  subCity: subCityReducer
+  subCity: subCityReducer,
+  chat: chatReducer,
 });
