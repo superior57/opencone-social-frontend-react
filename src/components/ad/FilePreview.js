@@ -40,8 +40,7 @@ const FilePreview = ({
             {
                 file.type.includes('image') ? <img src={URL.createObjectURL(file)} alt="preview"/> :
                 <VideoThumbnail videoUrl={URL.createObjectURL(file)} />
-            }
-            
+            }            
         </Grid>        
     </Grid>
 }

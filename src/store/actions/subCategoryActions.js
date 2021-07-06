@@ -10,7 +10,7 @@ const API = "/api/sub-categories"
  */
 export const getSubCategories = categoryId => dispatch => {
     dispatch(setLoading());
-    axios.get(API + categoryId)
+    axios.get(API + "/" + categoryId)
         .then(res => {
             dispatch({
                 type: GET_SUBCATEGORIES,

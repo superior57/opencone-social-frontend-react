@@ -1,5 +1,5 @@
 import { Grid } from '@material-ui/core';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import AddPhotoSection from '../../components/ad/AddPhotoSection';
 import ChooseSection from '../../components/ad/ChooseSection';
@@ -8,8 +8,6 @@ import PostDetailSection from '../../components/ad/PostDetailSection';
 import { useForm } from "react-hook-form";
 import { postAd } from '../../store/actions/adActions';
 import { useHistory } from 'react-router-dom';
-// import { getCategories } from '../../store/actions/categoryActions';
-// import { getCities } from '../../store/actions/cityActions';
 
 const AdPostPage = () => {
     const dispatch = useDispatch(null);
@@ -25,12 +23,6 @@ const AdPostPage = () => {
     const { handleSubmit } = useForm();
     const history = useHistory();
     
-
-    useEffect(() => {
-        // dispatch(getCategories());
-        // dispatch(getCities());
-    }, [data])    
-
     const validateData = () => {
         const newFormData = new FormData();
         Object.keys(data).forEach(d => {
@@ -49,9 +41,8 @@ const AdPostPage = () => {
     }
 
     const handleDataSubmit = () => {
-        const adData = validateData();
+        const adData = validateData();   
         dispatch(postAd(adData, history));
-        // console.log(data);
     }
 
     return <form onSubmit={handleSubmit(handleDataSubmit)}>

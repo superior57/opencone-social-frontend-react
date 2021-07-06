@@ -15,7 +15,7 @@ export const postAd = (adData, history) => dispatch => {
     dispatch({
         type: CLEAR_ERRORS
     });
-    axios.put(API, + "/" + adData)
+    axios.put(API, adData)
         .then(res => {
             dispatch({
                 type: END_PROGRESS
@@ -42,7 +42,7 @@ export const getAds = search => dispatch => {
     dispatch({
         type: START_PROGRESS
     });
-    axios.post(API, + "/" + search)
+    axios.post(API, search)
         .then(res => {
             dispatch({
                 type: GET_ADS,
