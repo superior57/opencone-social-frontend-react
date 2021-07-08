@@ -8,7 +8,7 @@ const API = "/api/field-specs";
  * @returns 
  */
 export const getFieldSpecs = fieldId => dispatch => {
-    axios.get(API + fieldId)
+    axios.get(API + "/" + fieldId)
         .then(res => {
             dispatch({
                 type: GET_FIELDSPECS,

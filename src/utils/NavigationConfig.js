@@ -54,6 +54,13 @@ export const adminNavigationList = [
         link: "/admin/city-management",
         button: true,
         color: "dark"
+    },
+    {
+        label: "Users",
+        icon: <Home />,
+        link: "/admin/user-management",
+        button: true,
+        color: "dark"
     }
 ]
 

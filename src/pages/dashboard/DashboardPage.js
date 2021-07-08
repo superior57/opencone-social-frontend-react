@@ -48,6 +48,16 @@ const useStyles = makeStyles(theme => ({
         height: 70,
         alignItems: 'center'
     },
+    scrollbar: {
+        overflowY: "auto",
+        '&::-webkit-scrollbar': {
+            width: '0.4em'
+        },
+        '&::-webkit-scrollbar-thumb': {
+            backgroundColor: '#787878',
+            borderRadius: 5
+        }
+    }
 }))
 
 const DashboardPage = () => {
@@ -64,7 +74,7 @@ const DashboardPage = () => {
                     device.isMobile ? "temporary" : "permanent"
                 }
                 open={sidebarOpen}
-                className={clsx(classes.drawer, {
+                className={clsx(classes.drawer, classes.scrollbar, {
                     [classes.drawerOpen]: sidebarOpen,
                     [classes.drawerClose]: !sidebarOpen && !device.isMobile,
                 })}

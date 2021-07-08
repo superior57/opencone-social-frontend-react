@@ -23,7 +23,7 @@ const CategoryManagement = () => {
     }, [selectedCategory])
 
     return <>
-        <Grid container spacing={0}>
+        <Grid container spacing={0} className="h-100">
             <Grid item xs={12} md={4}>
                 <CategoryContent 
                     value={selectedCategory}

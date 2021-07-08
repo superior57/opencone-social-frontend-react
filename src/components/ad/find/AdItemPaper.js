@@ -83,18 +83,18 @@ const AdItemPaper = ({
                     </Grid>
                     <Grid container spacing={1}>
                         <Grid item xs={4}>
-                            <AdOutlineButton fullWidth>
-                            <FavoriteBorder color="disabled" /> &nbsp; Add
+                            <AdOutlineButton fullWidth disabled={user._id === auth.user.id}>
+                                <FavoriteBorder color="disabled" /> &nbsp; Add
                             </AdOutlineButton>
                         </Grid>     
                         <Grid item xs={4}>
-                            <AdOutlineButton fullWidth>
-                                <Phone color="primary" /> &nbsp; Call
+                            <AdOutlineButton fullWidth disabled={user._id === auth.user.id}>
+                                <Phone  color={user._id === auth.user.id ? "disabled" : "primary"} /> &nbsp; Call
                             </AdOutlineButton>
                         </Grid>  
                         <Grid item xs={4}>
-                            <AdOutlineButton fullWidth onClick={handleClickChatButton}>
-                                <Forum color="primary" /> &nbsp; Chat
+                            <AdOutlineButton fullWidth onClick={handleClickChatButton} disabled={user._id === auth.user.id}>
+                                <Forum color={user._id === auth.user.id ? "disabled" : "primary"} /> &nbsp; Chat
                             </AdOutlineButton>
                         </Grid>               
                     </Grid>

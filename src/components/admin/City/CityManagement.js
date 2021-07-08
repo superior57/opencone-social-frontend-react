@@ -15,7 +15,7 @@ const CityManagement = () => {
     }, [])
 
     return <>
-        <Grid container spacing={0}>
+        <Grid container spacing={0} className="h-100">
             <Grid item xs={12} md={6}>
                 <CityContent 
                     value={selectedCity}

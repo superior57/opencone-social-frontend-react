@@ -73,34 +73,6 @@ const AdDetailsPage = () => {
                 title: "Neighborhood",
                 value: ad.subCity?.name
             },
-            // {
-            //     title: "Number of rooms",
-            //     value: "3 Bedrooms"
-            // },
-            // {
-            //     title: "Number of bathrooms",
-            //     value: "4 Bathrooms"
-            // },
-            // {
-            //     title: "Surface Area",
-            //     value: "180 m2"
-            // },
-            // {
-            //     title: "Floor",
-            //     value: "AmSecond Floorman"
-            // },
-            // {
-            //     title: "Age",
-            //     value: "0 - 11 months"
-            // },
-            // {
-            //     title: "Furnished/Unfurnished:",
-            //     value: "Unfurnished"
-            // },
-            // {
-            //     title: "Payment Method",
-            //     value: "Cash Only"
-            // },
         ],
         adList: [
             {
@@ -304,6 +276,7 @@ const AdDetailsPage = () => {
             </Grid>
             <Grid item md={3} className={classes.shortDiv}>
                 <ShortProfile 
+                    id={ad.user?._id}
                     name={productData.shortProfile.name}
                     avatar={productData.shortProfile.avatar}
                     dateFrom={productData.shortProfile.dateFrom}

@@ -7,7 +7,7 @@ import clsx from "clsx";
 
 const useStyles = makeStyles(theme => ({
     root: {
-        height: 'calc(100vh - 200px)',
+        height: '100%',
     },
     row: {
         cursor: "pointer",
@@ -22,6 +22,9 @@ const useStyles = makeStyles(theme => ({
         '& > *': {
             width: '100%'
         }
+    },
+    table: {
+        // minWidth: 650
     }
 }))
 
@@ -32,6 +35,7 @@ const CustomCatTable = ({
     header = "",
     selectedRow = null,
     size = "medium",
+    hideHeader = true,
     hiddenHeaderCols = [],
     onChangeRow = () => {},
     onDeleteRow = () => {},
@@ -93,7 +97,23 @@ const CustomCatTable = ({
             onClickAddButton={handleClickNewButton}
         />
         <TableContainer className={classes.tableContainer}>
-            <Table size={size}>
+            <Table size={size} className={classes.table}>
+                {
+                    !hideHeader && <TableHead>
+                        <TableRow >
+                            {
+                                headerCols.map((col, index) => <TableCell key={"col-" + index} align={align} className={clsx("px-4", classes.tableCell)} colSpan={index === headerCols.length - 1 ? hiddenHeaderCols.length + 1 : 1}>
+                                    {
+                                        col.title
+                                    }
+                                </TableCell>)
+                            }
+                            <TableCell align={align} className={clsx("px-4", classes.tableCell)} >
+                               
+                            </TableCell>
+                        </TableRow>
+                    </TableHead>
+                }
                 {
                     adding && <TableHead>
                         <TableRow >
@@ -156,7 +176,9 @@ const CustomCatTable = ({
                                                 },
                                             }}
                                             
-                                        />) : row[col.field]                                    
+                                        />) : (
+                                            col.displayRender ? col.displayRender(row[col.field]) : row[col.field]
+                                        )                                    
                                     }
                                 </TableCell>)
                             }

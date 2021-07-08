@@ -5,7 +5,9 @@ import { CheckCircle, LocalOffer, Phone, WhatsApp, FiberManualRecord, ExpandMore
 import ColorButton from '../common/button/ColorButton';
 import StarRate from '../common/StarRate';
 import clsx from "clsx";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { addContact } from '../../store/actions/chatActions';
 
 const useStyles = makeStyles(theme => ({
     collapseButton: {
@@ -18,6 +20,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const ShortProfile = ({
+    id = "",
     avatar = "",
     name = "",
     followed = false,
@@ -31,10 +34,22 @@ const ShortProfile = ({
     const classes = useStyles();
     const [expanded, setExpanded] = useState(false);
     const device = useSelector(store => store.device);
+    const history = useHistory();
+    const dispatch = useDispatch(null);
+    const { contacts } = useSelector(state => state.chat);
+    const auth = useSelector(state => state.auth);
 
     useEffect(() => {
         setExpanded(!device.isMobile);
     }, [device]);
+
+    const handleClickChatButton = ev => {
+        if (!contacts.find(contact => contact.receiver._id === id) && id !== auth.user.id) {
+            dispatch(addContact(id, history));
+        } else {
+            history.push('/chat');
+        }
+    }
     
     return (
         <Paper variant="outlined" square className="w-100">
@@ -51,13 +66,15 @@ const ShortProfile = ({
                 </Grid>
                 <Grid item md={12} className="my-auto">
                     <Typography variant="subtitle1" color="primary">
-                        <CheckCircle /> &nbsp;
-                        {name}
+                        <CheckCircle />&nbsp;
+                        <Button variant="text" color="primary" style={{ textTransform: 'none', fontSize: 18, padding: 0 }} onClick={() => history.push('/u/' + id)}>
+                            {name}                          
+                        </Button>
                     </Typography>
                 </Grid>
                 <Collapse in={expanded} unmountOnExit>
                     <Grid item xs={12}>
-                        <Button variant="text" color="primary" size="small">
+                        <Button variant="text" color="primary" size="small" disabled={id === auth.user.id}>
                             Follow                      
                         </Button>
                     </Grid>
@@ -81,19 +98,19 @@ const ShortProfile = ({
                                 </Typography>
                             </Grid>
                             <Grid item xs={12}>
-                                <Button variant="contained" color="primary" className="text-capitalize" size="large" fullWidth>
+                                <Button variant="contained" color="primary" className="text-capitalize" size="large" fullWidth onClick={handleClickChatButton} disabled={id === auth.user.id}>
                                     <Sms fontSize="small" /> &nbsp;
                                     Chat
                                 </Button>                                                      
                             </Grid>
                             <Grid item xs={12}>
-                                <ColorButton color="danger" className="" outlined size="large">
+                                <ColorButton color="danger" className="" outlined size="large" disabled={id === auth.user.id}>
                                     <Phone fontSize="small" /> &nbsp;
                                     {phoneNumber}
                                 </ColorButton>                                                     
                             </Grid>
                             <Grid item xs={12}>
-                                <ColorButton color="success" className="" size="large">
+                                <ColorButton color="success" className="" size="large" disabled={id === auth.user.id}>
                                     <WhatsApp fontSize="small" /> &nbsp;
                                     WhatsApp
                                 </ColorButton>                                                  

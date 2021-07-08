@@ -15,8 +15,8 @@ const FieldManagement = () => {
     }, [])
 
     return <>
-        <Grid container spacing={0}>
-            <Grid item xs={12} md={6}>
+        <Grid container spacing={0} className="h-100">
+            <Grid item xs={12} md={6} className="h-100">
                 <FieldContent 
                     value={selectedField}
                     onChange={fieldId => setSelectedField(fieldId)}

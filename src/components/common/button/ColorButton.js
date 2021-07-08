@@ -10,7 +10,8 @@ const ColorButton = ({
     outlined = false,
     className = "",
     fullWidth = true,
-    size = 'medium'
+    size = 'medium',
+    disabled = false
 }) => {
     let bgColor = "", borderColor = "";
 
@@ -36,14 +37,15 @@ const ColorButton = ({
         className={className}
         variant={outlined ? "outlined" : "contained"}
         style={{
-            backgroundColor: bgColor,
-            borderColor: borderColor,
-            color: textColor,
+            backgroundColor: disabled ? '' : bgColor,
+            borderColor: disabled ? '' : borderColor,
+            color: disabled ? '' : textColor,
             '& *': {
                 color: textColor
             },
             textTransform: 'none',
         }}
+        disabled={disabled}
     >
         { children }      
     </Button>

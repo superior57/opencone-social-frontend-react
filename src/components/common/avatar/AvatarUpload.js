@@ -4,15 +4,22 @@ import React, { createRef, useEffect, useState } from "react";
 import MaleImg from "../../../assets/images/avatar/male.png";
 import FemaleImg from "../../../assets/images/avatar/female.png";
 
-const AvatarUpload = (props) => {
-  const [image, _setImage] = useState(null);
-  const [gender, setGender] = useState("male");
+const AvatarUpload = ({
+  defaultSrc = null,
+  defaultGender = "male",
+  className = "",
+  size = "medium",
+  onChangeGender = () => {},
+  onChange = () => {},
+}) => {
+  const [image, _setImage] = useState(defaultSrc);
+  const [gender, setGender] = useState(defaultGender);
   const [defaultImg, setDefaultImg] = useState(MaleImg);
   const inputFileRef = createRef(null);
 
   useEffect(() => {
       setDefaultImg(gender === "male" ? MaleImg : FemaleImg);
-      props.onChangeGender(gender);
+      onChangeGender(gender);
   }, [gender])
 
   const cleanup = () => {
@@ -29,7 +36,7 @@ const AvatarUpload = (props) => {
 
   const handleOnChange = (event) => {
     const newImage = event.target?.files?.[0];
-    props.onChange(newImage);
+    onChange(newImage);
     
     if (newImage) {
       setImage(URL.createObjectURL(newImage));
@@ -47,14 +54,14 @@ const AvatarUpload = (props) => {
     }
   };
 
-  return <Grid className={props.className} container spacing={1} justify="center">
+  return <Grid className={className} container spacing={1} justify="center">
     <Grid item xs={6}>
         <Avatar
             alt="Avatar"
             src={image || defaultImg}
             style={{
-                width: 100,
-                height: 100
+                width: size === "small" ? 50 : 100,
+                height: size === "small" ? 50 : 100
             }}
         />
         <input
@@ -68,13 +75,13 @@ const AvatarUpload = (props) => {
         <label htmlFor="avatar-image-upload">
             <Button
                 className="my-2"
-                variant="contained"
+                variant={size === "small" ? "outlined" : "contained"}
                 color="primary"
                 component="span"
                 onClick={handleClick}
             >
             {image ? <Delete /> : <CloudUpload />} &nbsp;
-            {image ? "Delete" : "Upload"}
+            {size !== "small" && (image ? "Delete" : "Upload")}
             </Button>
         </label>          
     </Grid>    
