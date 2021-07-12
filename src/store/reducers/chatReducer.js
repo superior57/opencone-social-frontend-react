@@ -1,4 +1,4 @@
-import { ADD_CHAT_USER, CREATE_SOCKET, GET_CHAT_MESSAGES, GET_CONTACTS, LOADING_CHAT, NEW_MESSAGE, SEND_MESSAGE } from "../actions/types";
+import { ADD_CHAT_USER, CREATE_SOCKET, DELETE_MESSAGE, GET_CHAT_MESSAGES, GET_CONTACTS, LOADING_CHAT, NEW_MESSAGE, SEND_MESSAGE } from "../actions/types";
 import socketIOClient from 'socket.io-client';
 
 const initialState = {
@@ -49,6 +49,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 newMessage: action.payload
+            }
+        case DELETE_MESSAGE:
+            return {
+                ...state,
+                messages: state.messages.filter(msg => msg._id !== action.payload)
             }
         default:
             return state;

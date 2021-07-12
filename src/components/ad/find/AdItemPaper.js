@@ -1,5 +1,5 @@
 import { Grid, Paper, Typography, makeStyles } from '@material-ui/core';
-import { blue } from '@material-ui/core/colors';
+import { blue, yellow } from '@material-ui/core/colors';
 import { Phone, Forum, FavoriteBorder } from '@material-ui/icons';
 import clsx from 'clsx';
 import { colors } from '../../../utils/fieldTypes';
@@ -60,7 +60,7 @@ const AdItemPaper = ({
         }
     }
     
-    return <Paper square elevation={0} variant="outlined" className={clsx("p-2", classes.root)}>
+    return <Paper square elevation={0} variant="outlined" className={clsx("p-2", classes.root)} style={{ backgroundColor: data.order === 1 ? yellow[50] : '' }}>
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={5} md={4} lg={3} onClick={() => history.push("/ads/" + data._id)}>
                      {

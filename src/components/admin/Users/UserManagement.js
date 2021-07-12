@@ -6,13 +6,14 @@ import BadgeAvatar from "../../common/BadgeAvatar";
 import { 
     Grid, Table, TableHead, TableBody, TableContainer, TableRow, TableCell, Paper, IconButton, Fab, 
     Button, Dialog, DialogContent, DialogTitle, TextField, useTheme, useMediaQuery, 
-    Select
+    Select, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio
 } from '@material-ui/core';
 import { Edit as EditIcon, Delete as DeleteIcon, Add as AddIcon, Close as CloseIcon, RemoveRedEye as ViewIcon } from "@material-ui/icons";
 import { useForm } from "react-hook-form";
 import { CLEAR_ERRORS } from "../../../store/actions/types";
 import { roles } from "../../../utils/roles";
 import { useHistory } from "react-router-dom";
+import { red } from "@material-ui/core/colors";
 
 const columns = [
     {
@@ -38,6 +39,11 @@ const columns = [
     {
         field: 'role',
         title: "Role"
+    },
+    {
+        field: 'is_blocked',
+        title: "Status",
+        render: (value) => (value === '1' ? "Blocked" : "Active")
     }
 ]
 
@@ -55,7 +61,8 @@ const UserManagement = () => {
         password2: "",
         avatar: "",
         gender: "male", 
-        role: roles.client
+        role: roles.client,
+        is_blocked: 0,
     }
     const [data, setData] = useState(initialData);
     const theme = useTheme();
@@ -83,6 +90,7 @@ const UserManagement = () => {
         formData.append('password2', data.password2);
         formData.append('avatar', data.avatar);
         formData.append('gender', data.gender);
+        formData.append('is_blocked', data.is_blocked);
         
         if (adding) dispatch(registerUser(formData))
         else dispatch(updateUser(data.id, formData));
@@ -99,7 +107,8 @@ const UserManagement = () => {
             email: user.email,
             avatar: user.avatar,
             gender: user.gender,
-            id: user._id
+            id: user._id,            
+            is_blocked: user.is_blocked,
         });
         setAdding(false);
         setOpen(true);
@@ -236,8 +245,15 @@ const UserManagement = () => {
                     {
                         Object.keys(roles).map((role, index) => <option key={"role-item-" + index} value={roles[role]}>{roles[role]}</option>)
                     }
-                </Select>          
-                <Button variant="contained" color="primary" type="submit" fullWidth>
+                </Select> 
+                <FormControl component="fieldset" className="mb-2">
+                    <FormLabel component="legend">User status</FormLabel>
+                    <RadioGroup aria-label="" name="" value={data.is_blocked} onChange={ev => setData({...data, is_blocked: ev.target.value})} className="flex-row">
+                        <FormControlLabel value="0" label="Active" labelPlacement="end" control={<Radio checked={data.is_blocked === "0"} />} />                        
+                        <FormControlLabel value="1" label="Block" labelPlacement="end" control={<Radio checked={data.is_blocked === "1"} style={{ color: red[500] }} />} style={{ color: red[500] }} />                        
+                    </RadioGroup>
+                </FormControl>
+                <Button variant="contained" color="primary" type="submit" fullWidth onClick={handleSave}>
                     Save                  
                 </Button>
             </form>

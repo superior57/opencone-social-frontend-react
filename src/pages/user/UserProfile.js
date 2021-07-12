@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Grid from '@material-ui/core/Grid'
-import BadgeAvatar from "../../components/common/BadgeAvatar";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../../store/actions/authActions";
 import TopProfile from "../../components/user/TopProfile";
@@ -11,7 +10,7 @@ import AllAdList from "../../components/user/AllAdList";
 const UserProfile = () => {
     const history = useHistory();
     const { tempUser } = useSelector(state => state.auth);
-    const [currentId, setCurrentId] = useState(history.location.pathname.replace('/u/', '').trim());
+    const currentId = history.location.pathname.replace('/u/', '').trim();
     const dispatch = useDispatch(null);
 
     useEffect(() => {

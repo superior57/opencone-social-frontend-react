@@ -27,7 +27,7 @@ const Contacts = () => {
             <List>
                 {
                     contacts.map((contact, index) => <Fragment key={"contact-item-" + index}>
-                        <ListItem button className="py-4" onClick={() => dispatch(getMessages(contact.receiver._id))}>
+                        <ListItem button className="py-4" onClick={() => dispatch(getMessages(contact.receiver?._id))}>
                             <ListItemAvatar style={{ marginRight: 20 }}>
                                 <BadgeAvatar src={contact.receiver?.avatar} size="small"/>
                             </ListItemAvatar>

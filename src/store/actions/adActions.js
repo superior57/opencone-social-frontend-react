@@ -1,5 +1,5 @@
 import axios from "axios"
-import { AD_LOADING, CLEAR_ERRORS, END_PROGRESS, GET_AD, GET_ADS, GET_ERRORS, START_PROGRESS, SUBCATEGORY_INIT } from "./types";
+import { AD_LOADING, CLEAR_ERRORS, END_PROGRESS, GET_AD, GET_ADS, GET_ERRORS, START_PROGRESS, SUBCATEGORY_INIT, UPDATE_AD } from "./types";
 
 const API = "/api/ads";
 
@@ -83,9 +83,61 @@ export const getAd = adId => dispatch => {
             });
         })
         .catch(err => {
+            console.log(err);
             dispatch({
                 type: GET_ERRORS,
-                payload: err.response.data
+                payload: err.response ? err.response.data : err
+            })
+        })
+}
+
+export const boostAd = adId => dispatch => {
+    axios.post(API + "/boost/" + adId)
+        .then(res => {
+            dispatch(getAds);
+        })
+        .catch(err => {
+            console.log(err);
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response ? err.response.data : err
+            })
+        })
+
+}
+
+
+export const updateAd = (adId, adData) => dispatch => {
+    axios.post(API + '/' +adId, adData)
+        .then(res => {
+            dispatch({type: CLEAR_ERRORS}); 
+            dispatch({
+                type: UPDATE_AD,
+                payload: res.data
+            })
+        })
+        .catch(err => {
+            console.log(err);
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response ? err.response.data : err
+            })
+        })
+}
+
+export const addComment = (adId, commentData) => dispatch => {
+    axios.post(API + "/comments/" + adId, commentData)
+        .then(res => {
+            dispatch({
+                type: UPDATE_AD,
+                payload: res.data
+            })
+        })
+        .catch(err => {
+            console.log(err);
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response ? err.response.data : err
             })
         })
 }

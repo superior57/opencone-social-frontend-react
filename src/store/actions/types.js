@@ -64,6 +64,7 @@ export const ADD_AD = "ADD_AD";
 export const AD_LOADING = "AD_LOADING";
 export const GET_AD = "GET_AD";
 export const AD_INIT = "AD_INIT";
+export const UPDATE_AD = "UPDATE_AD";
 
 // Dialog
 export const START_PROGRESS = "START_PROGRESS";
@@ -89,6 +90,7 @@ export const GET_CONTACTS = "GET_CONTACTS";
 export const ADD_CHAT_USER = "ADD_CHAT_USER";
 export const GET_CHAT_MESSAGES = "GET_CHAT_MESSAGES";
 export const SEND_MESSAGE = "SEND_MESSAGE";
+export const DELETE_MESSAGE = "DELETE_MESSAGE";
 export const NEW_MESSAGE = "NEW_MESSAGE";
 export const LOADING_CHAT = "LOADING_CHAT";
 export const CREATE_SOCKET = "CREATE_SOCKET";

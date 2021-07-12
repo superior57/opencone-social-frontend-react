@@ -1,3 +1,4 @@
+import AdManagement from "../components/admin/Ads/AdManagement"
 import CategoryManagement from "../components/admin/Category/CategoryManagement"
 import CityManagement from "../components/admin/City/CityManagement"
 import FieldManagement from "../components/admin/Field/FieldManagement"
@@ -80,6 +81,11 @@ export const routeConfig = {
         {
             path: "/admin/user-management",
             component: <UserManagement />,
+            roles: [roles.admin]
+        },
+        {
+            path: "/admin/ad-management",
+            component: <AdManagement />,
             roles: [roles.admin]
         }
         

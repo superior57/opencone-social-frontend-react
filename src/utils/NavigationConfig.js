@@ -61,6 +61,13 @@ export const adminNavigationList = [
         link: "/admin/user-management",
         button: true,
         color: "dark"
+    },
+    {
+        label: "Ads",
+        icon: <Home />,
+        link: "/admin/ad-management",
+        button: true,
+        color: "dark"
     }
 ]
 

@@ -64,6 +64,7 @@ const Chat = () => {
                 {
                     messages.map((item, index) => <div key={"message-item-" + index} >     
                         <MessageItem 
+                            id={item._id}
                             message={item.message} 
                             time={getTime(item.date)} 
                             isSent={item.sender?._id === user.id}

@@ -4,7 +4,7 @@ import DashboardPage from "./pages/dashboard/DashboardPage";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core";
 import { blue, green } from "@material-ui/core/colors";
 import { useSelector, useDispatch } from "react-redux";
-import { ADD_CHAT_USER, NEW_MESSAGE, UPDATE_DEVICE } from "./store/actions/types";
+import { ADD_CHAT_USER, DELETE_MESSAGE, NEW_MESSAGE, UPDATE_DEVICE } from "./store/actions/types";
 import { isMobile as isMobileFnc } from "./utils/device";
 import { routeConfig } from "./utils/routeConfig";
 import CustomRoute from "./components/Route/CustomRoute";
@@ -12,7 +12,7 @@ import history from "./@history";
 import { checkAuthenticate } from "./store/actions/authActions";
 import { isEmpty } from "./utils/functions";
 import socketIOClient from "socket.io-client";
-import { SOCKET_ADD_CONTACT, SOCKET_RECEIVED_MESSAGE } from "./utils/event.types";
+import { SOCKET_ADD_CONTACT, SOCKET_DELETE_MESSAGE, SOCKET_RECEIVED_MESSAGE } from "./utils/event.types";
 
 
 const App = () => { 
@@ -81,6 +81,12 @@ const App = () => {
             payload: contact
           })
         }
+      });
+      socket.on(SOCKET_DELETE_MESSAGE, (id) => {
+        dispatch({
+          type: DELETE_MESSAGE,
+          payload: id
+        })
       })
     }
   }, [auth.user])

@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react';
 import { SET_SEARCH } from '../../store/actions/types';
 import { getAds } from '../../store/actions/adActions';
 import ProgressCircle from '../../components/common/progress/ProgressCircle';
+import { shuffleArray } from '../../utils/functions';
+
 
 const AdFindPage = () => {
     const { subCategory } = useSelector(state => state.subCategory);
@@ -15,11 +17,26 @@ const AdFindPage = () => {
     const { ads } = useSelector(state => state.ad);
     const [state, setState] = useState({});
     const [specs, setSpecs] = useState({});
+    const [randomAds, setRandomAds] = useState([])
     const dispatch = useDispatch(null);
+
+    
+    useEffect(() => {
+        let shufflyAds = [];
+        shufflyAds = shuffleArray(ads);
+        shufflyAds = [
+            ...shufflyAds.filter(ad => ad.order === 1),
+            ...shufflyAds.filter(ad => ad.order !== 1)
+        ]
+        setRandomAds([
+            ...shufflyAds.filter(ad => ad.is_blocked != 1)
+        ]);
+    }, [ads])
 
     useEffect(() => {
         dispatch(getAds());
     }, [])
+
     useEffect(() => {
         if (Object.values(subCategory).length > 0) {
             setState({
@@ -150,7 +167,7 @@ const AdFindPage = () => {
         }
         {
             progress ? <Grid item xs={12} md={12}><ProgressCircle /></Grid> :
-            (ads.length > 0 ? ads.map((ad, index) => <Grid key={"ad-item-" + index} item xs={12} md={12} lg={8}>
+            (randomAds.length > 0 ? randomAds.map((ad, index) => <Grid key={"ad-item-" + index} item xs={12} md={12} lg={8}>
                 <AdItemPaper 
                     data={ad} 
                 />           

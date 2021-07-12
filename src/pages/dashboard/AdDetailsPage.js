@@ -16,6 +16,8 @@ import ProgressCircle from '../../components/common/progress/ProgressCircle';
 import NotFound from '../../components/errors/NotFound';
 import moment from 'moment';
 import { AD_INIT } from '../../store/actions/types';
+import { shuffleArray } from '../../utils/functions';
+import { addContact } from '../../store/actions/chatActions';
 
 const useStyles = makeStyles(theme => ({
     detailedDiv: {
@@ -36,7 +38,10 @@ const AdDetailsPage = () => {
     const [currentId, setCurrentId] = useState(history.location.pathname.replace('/ads/', '').trim());
     const dispatch = useDispatch(null);
     const errors = useSelector(state => state.errors);
-    const { ad, ads, loading } = useSelector(state => state.ad);
+    const { ad, ads: originalAds, loading } = useSelector(state => state.ad);
+    const auth = useSelector(state => state.auth);
+    const { contacts } = useSelector(state => state.chat);
+    const [ads, setAds] = useState([]);
     const { isMobile } = useSelector(store => store.device);
     const currentIndex = ads.findIndex(dd => dd._id === currentId);
     const previousId = currentIndex > 0 ? ads[currentIndex - 1]._id : false;
@@ -49,6 +54,21 @@ const AdDetailsPage = () => {
             "Home"
         ]
     }
+    
+    useEffect(() => {
+        dispatch({
+            type: AD_INIT
+        })
+    }, []);
+
+    useEffect(() => {
+        dispatch(getAds());
+        dispatch(getAd(currentId));
+    }, [currentId]);
+
+    useEffect(() => {
+        setAds(shuffleArray(originalAds).filter(ad => ad.is_blocked != 1));
+    }, [originalAds]);
 
     let dirCity = ""
     if (ad.subCity) {
@@ -58,7 +78,7 @@ const AdDetailsPage = () => {
         headerTitle.directories.push(dirCity);
     }
     if (ad.sub_category) {
-        headerTitle.directories.push(ad.sub_category?.category.name);
+        headerTitle.directories.push(ad.sub_category?.category?.name);
         headerTitle.directories.push(ad.sub_category?.name);
     }
 
@@ -118,20 +138,6 @@ const AdDetailsPage = () => {
             "3 Bedrooms For Sale in Daheit Al Rasheed",
             "3 Bedrooms For Sale in Marj El Hamam"
         ],
-        commentList: [
-            {
-                title: "Adam Smit",
-                value: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus, omnis fugit corporis iste magnam ratione."
-            },
-            {
-                title: "Adam Smit",
-                value: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus, omnis fugit corporis iste magnam ratione."
-            },
-            {
-                title: "Adam Smit",
-                value: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus, omnis fugit corporis iste magnam ratione."
-            },
-        ],
         shortProfile: {
             avatar: ad.user?.avatar,
             gender: ad.user?.gender,
@@ -150,21 +156,20 @@ const AdDetailsPage = () => {
     productData.specs = [
         ...productData.specs,
         ...ad.fieldData || []
-    ]
-
-    useEffect(() => {
-        dispatch({
-            type: AD_INIT
-        })
-    }, [])
-    useEffect(() => {
-        dispatch(getAds());
-        dispatch(getAd(currentId));
-    }, [currentId])
+    ];
     
     if (errors.adnotfound) {
         return <NotFound text="404" />
     }
+
+    const handleClickChatButton = ev => {
+        if (!contacts.find(contact => contact.receiver._id === ad.user._id) && ad.user._id !== auth.user.id) {
+            dispatch(addContact(ad.user._id, history));
+        } else {
+            history.push('/chat');
+        }
+    }
+
     return (
         Object.values(ad).length > 0 ? <div>
         <Grid container spacing={1} alignItems="center" className="py-3 mt-2">
@@ -212,19 +217,19 @@ const AdDetailsPage = () => {
             <Grid item xs={6}>
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={4}>
-                        <ColorButton color="success" className="">
+                        <ColorButton color="success" className="" disabled={ad.user._id === auth.user.id} >
                             <WhatsApp fontSize="small" /> &nbsp;
                             WhatsApp
                         </ColorButton>
                     </Grid>    
                     <Grid item xs={12} md={4}>
-                        <Button variant="contained" color="primary" className="text-capitalize" fullWidth>
+                        <Button variant="contained" color="primary" className="text-capitalize" fullWidth disabled={ad.user._id === auth.user.id} onClick={handleClickChatButton} >
                             <Sms fontSize="small" /> &nbsp;
                             Chat
                         </Button>
                     </Grid>       
                     <Grid item xs={12} md={4}>
-                        <ColorButton color="danger" className="" outlined>
+                        <ColorButton color="danger" className="" outlined disabled={ad.user._id === auth.user.id}>
                             <Phone fontSize="small" /> &nbsp;
                             079694XXXX
                         </ColorButton>
@@ -270,7 +275,7 @@ const AdDetailsPage = () => {
                         <Popular data={productData.popularList} />
                     </Grid>      
                     <Grid item md={11} lg={10} xl={9}>
-                        <Comments data={productData.commentList} />
+                        <Comments adId={currentId} data={ad.comments || []} />
                     </Grid>   
                 </Grid>
             </Grid>

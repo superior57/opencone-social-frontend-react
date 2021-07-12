@@ -1,4 +1,4 @@
-import { AD_INIT, AD_LOADING, GET_AD, GET_ADS, SET_SEARCH } from "../actions/types";
+import { AD_INIT, AD_LOADING, GET_AD, GET_ADS, SET_SEARCH, UPDATE_AD } from "../actions/types";
 
 const initialState = {
     search: {},
@@ -35,6 +35,12 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 ad: {}
+            }
+        case UPDATE_AD:
+            return {
+                ...state,
+                ads: state.ads.map(ad => ad._id === action.payload._id ? action.payload : ad),
+                ad: action.payload
             }
         default:
             return state;
