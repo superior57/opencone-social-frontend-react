@@ -6,7 +6,7 @@ import BadgeAvatar from "../../common/BadgeAvatar";
 import { 
     Grid, Table, TableHead, TableBody, TableContainer, TableRow, TableCell, Paper, IconButton, Fab, 
     Button, Dialog, DialogContent, DialogTitle, TextField, useTheme, useMediaQuery, 
-    Select, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio
+    Select, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Checkbox
 } from '@material-ui/core';
 import { Edit as EditIcon, Delete as DeleteIcon, Add as AddIcon, Close as CloseIcon, RemoveRedEye as ViewIcon } from "@material-ui/icons";
 import { useForm } from "react-hook-form";
@@ -68,6 +68,7 @@ const UserManagement = () => {
     const theme = useTheme();
     const isWidthDownSm = useMediaQuery(theme.breakpoints.down('sm'));
     const history = useHistory();
+    const [pass, setPass] = useState(false);
     
     useEffect(() => {
         dispatch(getUsers());
@@ -91,6 +92,7 @@ const UserManagement = () => {
         formData.append('avatar', data.avatar);
         formData.append('gender', data.gender);
         formData.append('is_blocked', data.is_blocked);
+        formData.append('pass', pass);
         
         if (adding) dispatch(registerUser(formData))
         else dispatch(updateUser(data.id, formData));
@@ -145,7 +147,7 @@ const UserManagement = () => {
                     </TableHead>
                     <TableBody>
                         {
-                            users.map((user, u_i) => <TableRow key={"usertable-body-row-" + u_i}>
+                            users.map((user, u_i) => <TableRow key={"usertable-body-row-" + u_i} style={{ backgroundColor: user.is_blocked === '1' ? red[50] : '' }}>
                                 {
                                     columns.map((col, c_i) => <TableCell key={"usertabel-body-col-" + c_i}>
                                         {
@@ -217,6 +219,20 @@ const UserManagement = () => {
                     error={!!errors.email}
                     helperText={errors.email}
                 />  
+                {
+                    !adding && <FormControl className="mb-1">
+                        <FormControlLabel
+                        label="Change password"
+                        control={
+                            <Checkbox
+                            checked={pass}
+                            onChange={ev => setPass(!pass)}
+                            color="primary"
+                            />
+                        }
+                        />
+                    </FormControl>
+                }    
                 <TextField              
                     label="Password"
                     variant="outlined"
@@ -228,6 +244,7 @@ const UserManagement = () => {
                     required={adding}
                     error={!!errors.password}
                     helperText={errors.password}
+                    disabled={!pass && !adding}
                 /> 
                 <TextField               
                     label="Password Confirmation"
@@ -240,6 +257,7 @@ const UserManagement = () => {
                     required={adding}
                     error={!!errors.password2}
                     helperText={errors.password2}
+                    disabled={!pass && !adding}
                 />     
                 <Select native fullWidth className="mb-3" variant="outlined" value={data.role} onChange={ev => setData({...data, role: ev.target.value})}>
                     {

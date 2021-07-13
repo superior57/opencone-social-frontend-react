@@ -1,4 +1,4 @@
-import { Grid, FormControl, TextField, Typography } from '@material-ui/core';
+import { Grid, FormControl, TextField, Typography, Select, MenuItem, FormHelperText, FormLabel } from '@material-ui/core';
 import AdItemPaper from '../../components/ad/find/AdItemPaper';
 import { useDispatch, useSelector } from "react-redux";
 import Field from '../../components/ad/Field';
@@ -6,7 +6,8 @@ import { useEffect, useState } from 'react';
 import { SET_SEARCH } from '../../store/actions/types';
 import { getAds } from '../../store/actions/adActions';
 import ProgressCircle from '../../components/common/progress/ProgressCircle';
-import { shuffleArray } from '../../utils/functions';
+import { isEmpty, shuffleArray } from '../../utils/functions';
+import { sortMethods } from '../../utils/fieldTypes';
 
 
 const AdFindPage = () => {
@@ -14,23 +15,34 @@ const AdFindPage = () => {
     const { category } = useSelector(state => state.category);
     const { city } = useSelector(state => state.city);
     const { progress } = useSelector(state => state.dialog);
-    const { ads } = useSelector(state => state.ad);
+    const { ads, ad } = useSelector(state => state.ad);
     const [state, setState] = useState({});
     const [specs, setSpecs] = useState({});
     const [randomAds, setRandomAds] = useState([])
+    const [sortMethod, setSortMethod] = useState("");
     const dispatch = useDispatch(null);
+    const [isFirstLoading, setIsFirstLoading] = useState(true);
 
     
     useEffect(() => {
-        let shufflyAds = [];
-        shufflyAds = shuffleArray(ads);
-        shufflyAds = [
-            ...shufflyAds.filter(ad => ad.order === 1),
-            ...shufflyAds.filter(ad => ad.order !== 1)
-        ]
-        setRandomAds([
-            ...shufflyAds.filter(ad => ad.is_blocked != 1)
-        ]);
+        if (!isEmpty(ads)) {
+            if (isFirstLoading) {
+                let shufflyAds = [];
+                shufflyAds = shuffleArray(ads);
+                shufflyAds = [
+                    ...shufflyAds.filter(ad => ad.order === 1),
+                    ...shufflyAds.filter(ad => ad.order !== 1)
+                ]
+                setRandomAds([
+                    ...shufflyAds.filter(ad => ad.is_blocked != 1)
+                ]);
+                setIsFirstLoading(false);
+            } else {
+                setRandomAds([
+                    ...randomAds?.map(tad => tad._id === ad._id ? ad : tad)
+                ])            
+            }
+        }
     }, [ads])
 
     useEffect(() => {
@@ -103,6 +115,91 @@ const AdFindPage = () => {
         }
     }, [specs, state])
 
+    useEffect(() => {
+        if (!!sortMethod) {
+            switch (sortMethod) {
+                case sortMethods.NEWEST:   
+                    setRandomAds([
+                        ...randomAds.sort((prevObj, nextObj) => {
+                            let prevDate = new Date(prevObj.date);
+                            let nextDate = new Date(nextObj.date);
+                            if (prevDate > nextDate) {
+                                return -1
+                            }
+                            if (prevDate < nextDate) {
+                                return 1
+                            }
+                            return 0
+                        })
+                    ]);          
+                    break;
+                case sortMethods.OLDEST: 
+                    setRandomAds([
+                        ...randomAds.sort((prevObj, nextObj) => {
+                            let prevDate = new Date(prevObj.date);
+                            let nextDate = new Date(nextObj.date);
+                            if (prevDate < nextDate) {
+                                return -1
+                            }
+                            if (prevDate > nextDate) {
+                                return 1
+                            }
+                            return 0
+                        })
+                    ]);                    
+                    break;
+                case sortMethods.MAXPRICE: 
+                    setRandomAds([
+                        ...randomAds.sort((prevObj, nextObj) => {
+                            console.log(Number(prevObj.price), Number(nextObj.price));
+                            console.log(Number(prevObj.price) > Number(nextObj.price));
+                            if (Number(prevObj.price) > Number(nextObj.price)) {
+                                return -1;
+                            }
+                            if (Number(prevObj.price) < Number(nextObj.price)) {
+                                return 1;
+                            }
+                            return 0;
+                        })
+                    ]); 
+                    break;
+                case sortMethods.MINPRICE: 
+                    setRandomAds([
+                        ...randomAds.sort((prevObj, nextObj) => {
+                            if (Number(prevObj.price) < Number(nextObj.price)) {
+                                return -1;
+                            }
+                            if (Number(prevObj.price) > Number(nextObj.price)) {
+                                return 1;
+                            }
+                            return 0;
+                        })
+                    ]);
+                    break;
+                case sortMethods.POPULAR:
+                    setRandomAds([
+                        ...randomAds.sort((prevObj, nextObj) => {
+                            if (prevObj.likes.length > nextObj.likes.length) {
+                                return -1;
+                            }
+                            if (prevObj.likes.length < nextObj.likes.length) {
+                                return 1;
+                            }
+                            return 0;
+                        })
+                    ]);
+                    break;
+            
+                default:
+                    break;
+            }
+        }
+    }, [sortMethod])
+
+    useEffect(() => {
+        console.log(randomAds);
+    }, [randomAds])
+
     return <Grid container spacing={1}>
         {
             subCategory.fields && <Grid item xs={12}>
@@ -165,6 +262,20 @@ const AdFindPage = () => {
                 </Grid>
             </Grid>
         }
+        <Grid item xs ={12}>
+            <Grid container spacing={1} justify="flex-end">
+                <Grid item>
+                    <FormControl size="small">
+                        <FormLabel>Sort : </FormLabel>
+                        <Select variant="outlined" value={sortMethod} onChange={ev => setSortMethod(ev.target.value)} style={{ minWidth: 150 }}>
+                            {
+                                Object.values(sortMethods).map((method, index) => <MenuItem key={"sort-method-item-" + index} value={method}>{method}</MenuItem>)
+                            }
+                        </Select>
+                    </FormControl>
+                </Grid>              
+            </Grid>
+        </Grid>
         {
             progress ? <Grid item xs={12} md={12}><ProgressCircle /></Grid> :
             (randomAds.length > 0 ? randomAds.map((ad, index) => <Grid key={"ad-item-" + index} item xs={12} md={12} lg={8}>

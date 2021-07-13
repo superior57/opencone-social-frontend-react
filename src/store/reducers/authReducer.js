@@ -40,7 +40,11 @@ export default function(state = initialState, action) {
     case UPDATE_USER:
       return {
         ...state,
-        users: state.users.map(user => user._id === action.payload._id ? action.payload : user)
+        users: state.users.map(user => user._id === action.payload._id ? action.payload : user),
+        user: action.payload._id === state.user.id ? {
+          ...action.payload,
+          id: action.payload._id
+        } : state.user,
       }
     default:
       return state;

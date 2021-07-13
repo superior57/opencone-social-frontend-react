@@ -141,3 +141,20 @@ export const addComment = (adId, commentData) => dispatch => {
             })
         })
 }
+
+export const addLike = adId => dispatch => {
+    axios.post(API + "/likes/" + adId)
+        .then(res => {
+            dispatch({
+                type: UPDATE_AD,
+                payload: res.data
+            })
+        })
+        .catch(err => {
+            console.log(err);
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response ? err.response.data : err
+            })
+        })
+}

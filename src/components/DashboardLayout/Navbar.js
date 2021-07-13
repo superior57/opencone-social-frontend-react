@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { List, ListItemIcon, ListItem, ListItemText, Divider, Grid, Button, ListSubheader, makeStyles, Collapse, TextField, InputAdornment } from "@material-ui/core";
-import { navigationList, Categories, adminNavigationList } from "../../utils/navigationConfig";
+import { navigationList, adminNavigationList } from "../../utils/navigationConfig";
 import { Link } from "react-router-dom";
 import LogoComponent from "../common/logo";
 import JordanFlagImg from "../../assets/images/flags/jordan_flag.png";
@@ -10,6 +10,7 @@ import {
 } from "../../store/actions/types";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
+import { getCategories } from "../../store/actions/categoryActions";
 
 const useStyles = makeStyles(theme => ({
   nested: {
@@ -34,16 +35,23 @@ const Navbar = () => {
   const theme = useSelector(store => store.theme);
   const { t, i18n } = useTranslation();
   const { user } = useSelector(state => state.auth);
+  const { categories } = useSelector(state => state.category);
+
+  useEffect(() => {
+    dispatch(getCategories());
+  }, [])
+
+  console.log(categories);
   
   const filteredCategories = () => {
     let filteredCategoryList = [];
-    filteredCategoryList = Categories;
+    filteredCategoryList = categories;
     if (searchKey) {
       filteredCategoryList = filteredCategoryList.filter(cat => {
-        let str_labels = cat.label;
-        if (cat.children) {
-          cat.children.forEach(catChild => {
-            str_labels += " " + catChild.label;
+        let str_labels = cat.name;
+        if (cat.subCategories) {
+          cat.subCategories.forEach(catChild => {
+            str_labels += " " + catChild.name;
           })
         }
         return str_labels.toLowerCase().includes(searchKey.toLowerCase());
@@ -52,15 +60,15 @@ const Navbar = () => {
         ...filteredCategoryList.map(category => ({
           ...category,
           children: [
-            ...category.children.filter(cat_child => {
-              const { label } = cat_child;
-              return label.toLowerCase().includes(searchKey.toLowerCase());
+            ...category.subCategories.filter(cat_child => {
+              const { name } = cat_child;
+              return name.toLowerCase().includes(searchKey.toLowerCase());
             })
           ]
         }))
       ]
     }
-    return filteredCategoryList.map((category, index) => <div key={'category-item-' + index}>
+    return filteredCategoryList?.map((category, index) => <div key={'category-item-' + index}>
       <ListItem 
         className={`rounded-3 ${selectedItem === index ? classes.selectedCategory : ''}`} 
         button 
@@ -69,14 +77,16 @@ const Navbar = () => {
         <ListItemIcon>
           <DriveEta />
         </ListItemIcon>
-        <ListItemText primary={category.label} />
-        {selectedItem === index ? <ExpandLess /> : <ExpandMore />}
+        <ListItemText primary={category.name} />
+        {
+          category.subCategories.length > 0 && (selectedItem === index ? <ExpandLess /> : <ExpandMore />)
+        }
       </ListItem>
       <Collapse in={selectedItem === index} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           {
-            category.children.map((ch_item, c_index) => <ListItem key={"ch-item-" + c_index} button className={classes.nested}>
-              <ListItemText primary={ch_item.label} />
+            category.subCategories?.map((ch_item, c_index) => <ListItem key={"ch-item-" + c_index} button className={classes.nested}>
+              <ListItemText primary={ch_item.name} />
             </ListItem>)
           }
         </List>

@@ -1,16 +1,20 @@
-import { Paper, Grid, Typography, Button, useTheme, useMediaQuery } from "@material-ui/core";
+import { Paper, Grid, Typography, Button, useTheme, useMediaQuery, IconButton } from "@material-ui/core";
 import BadgeAvatar from "../common/BadgeAvatar";
 import StarRate from "../common/StarRate";
-import { CheckCircle, CalendarToday as CalendarIcon, Flag as FlangIcon, Phone as PhoneIcon, Add as AddIcon } from "@material-ui/icons";
+import { CheckCircle, CalendarToday as CalendarIcon, Flag as FlangIcon, Phone as PhoneIcon, Add as AddIcon, Edit } from "@material-ui/icons";
 import moment from "moment";
 import { green, red } from "@material-ui/core/colors";
+import { useSelector } from "react-redux";
 
 const TopProfile = ({
-    user = {}
+    userId = "",
+    user = {},
+    onEdit = () => {}
 }) => {
     const dateFrom = moment(user.date);
     const theme = useTheme();
     const isWidthDownSm = useMediaQuery(theme.breakpoints.down('sm'));
+    const auth = useSelector(state => state.auth);
 
     return <Paper elevation={0} square variant="outlined" className="p-3">
         <Grid container spacing={1}>
@@ -38,25 +42,36 @@ const TopProfile = ({
                             <CalendarIcon />&nbsp;Member since {dateFrom.format('DD-MM-yyyy')}
                         </Typography>
                     </Grid>  
-                    <Grid item>
-                        <Button variant="text" color="primary" size="small">
-                           <FlangIcon style={{ color: red[500] }} />&nbsp;Report Member                          
-                        </Button>
-                    </Grid>       
+                    {
+                        auth.user.id !== userId && <Grid item>
+                            <Button variant="text" color="primary" size="small">
+                            <FlangIcon style={{ color: red[500] }} />&nbsp;Report Member                          
+                            </Button>
+                        </Grid>   
+                    }    
                 </Grid>
             </Grid>    
-            <Grid item xs={12} md={6} className="d-flex align-items-center">
-                <Grid container spacing={1} justify="center">
-                    <Grid item xs={12} md={6}>
-                        <Button variant="contained" color="primary" style={{ backgroundColor: green[500] }} fullWidth className="mb-3">
-                           <PhoneIcon />&nbsp; 079107735                 
-                        </Button>
-                        <Button variant="contained" color="primary" fullWidth>
-                            <AddIcon />&nbsp; Follow                          
-                        </Button>
-                    </Grid>                  
+            {
+               auth.user.id !== userId ? <Grid item xs={12} md={6} className="d-flex align-items-center">
+                    <Grid container spacing={1} justify="center">
+                        <Grid item xs={12} md={6}>
+                            <Button variant="contained" color="primary" style={{ backgroundColor: green[500] }} fullWidth className="mb-3">
+                            <PhoneIcon />&nbsp; 079107735                 
+                            </Button>
+                            <Button variant="contained" color="primary" fullWidth>
+                                <AddIcon />&nbsp; Follow                          
+                            </Button>
+                        </Grid>                  
+                    </Grid>
+                </Grid> :
+                <Grid item xs={12} md={6} className="d-flex">
+                    <div>
+                        <IconButton aria-label="" onClick={onEdit}>
+                            <Edit />                  
+                        </IconButton>
+                    </div>
                 </Grid>
-            </Grid>      
+            }
         </Grid>
     </Paper>
 }

@@ -98,3 +98,11 @@ export const colors = [
         value: "#d4af37"
     },
 ]
+
+export const sortMethods = {
+    NEWEST: "Newest",
+    OLDEST: "Oldest",
+    MAXPRICE: "Maximum Price",
+    MINPRICE: "Minimum Price",
+    POPULAR: "Most Popular"
+}

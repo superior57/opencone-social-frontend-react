@@ -9,6 +9,7 @@ import { useHistory } from "react-router-dom";
 import { getFileType } from '../../../utils/functions';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from '../../../store/actions/chatActions';
+import { addLike } from '../../../store/actions/adActions';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -59,6 +60,10 @@ const AdItemPaper = ({
             history.push('/chat');
         }
     }
+
+    const handleAddLike = () => {
+        dispatch(addLike(data._id));
+    }
     
     return <Paper square elevation={0} variant="outlined" className={clsx("p-2", classes.root)} style={{ backgroundColor: data.order === 1 ? yellow[50] : '' }}>
             <Grid container spacing={2}>
@@ -83,7 +88,7 @@ const AdItemPaper = ({
                     </Grid>
                     <Grid container spacing={1}>
                         <Grid item xs={4}>
-                            <AdOutlineButton fullWidth disabled={user._id === auth.user.id}>
+                            <AdOutlineButton fullWidth disabled={user._id === auth.user.id} onClick={handleAddLike} disabled={auth.user.id === data.user._id ? true : (data.likes.includes(auth.user.id) ? true : false)}>
                                 <FavoriteBorder color="disabled" /> &nbsp; Add
                             </AdOutlineButton>
                         </Grid>     

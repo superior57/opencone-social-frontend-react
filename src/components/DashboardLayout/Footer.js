@@ -41,6 +41,7 @@ const Footer = () => {
   const classes = useStyles();  
   const { t } = useTranslation();
   const { isMobile } = useSelector(store => store.device);
+  const auth = useSelector(state => state.auth);
   const history = useHistory();
 
   return (
@@ -90,7 +91,7 @@ const Footer = () => {
             </Link>            
           </Menuulli>
           <Menuulli>
-            <Link to="/#" className={classes.menuItem}>
+            <Link to={"/u/" + auth.user.id} className={classes.menuItem}>
               <Menuliicondiv>
                 <i className="fa fa-user"></i>
               </Menuliicondiv>
