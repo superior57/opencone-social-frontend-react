@@ -7,10 +7,11 @@ const CustomRoute = ({
     path = "",
     roles = []
  }) => {
+    if (roles.includes("client")) {
+        return <AuthRoute path={path}>{ component }</AuthRoute>
+    }
     if (roles.includes("admin")) {
         return <AdminRoute path={path}>{ component }</AdminRoute>
-    } else if (roles.includes("client")) {
-        return <AuthRoute path={path}>{ component }</AuthRoute>
     }
     return <Route exact path={path}>{ component }</Route>
 }

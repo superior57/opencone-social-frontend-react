@@ -71,7 +71,7 @@ export const checkAuthenticate = () => dispatch => {
   const token = localStorage.getItem('jwtToken');
   if (token) {
     setAuthToken(token);
-    const decoded = jwt_decode(token);    
+    const decoded = jwt_decode(token);   
     axios.get('/api/users/current', decoded)
       .then(res => {
         dispatch({

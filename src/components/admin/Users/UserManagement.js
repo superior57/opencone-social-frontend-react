@@ -37,6 +37,10 @@ const columns = [
         render: value => value
     },
     {
+        field: 'boost_credits',
+        title: "Credits"
+    },
+    {
         field: 'role',
         title: "Role"
     },
@@ -63,6 +67,7 @@ const UserManagement = () => {
         gender: "male", 
         role: roles.client,
         is_blocked: 0,
+        boost_credits: 0,
     }
     const [data, setData] = useState(initialData);
     const theme = useTheme();
@@ -93,6 +98,7 @@ const UserManagement = () => {
         formData.append('gender', data.gender);
         formData.append('is_blocked', data.is_blocked);
         formData.append('pass', pass);
+        formData.append('boost_credits', data.boost_credits);
         
         if (adding) dispatch(registerUser(formData))
         else dispatch(updateUser(data.id, formData));
@@ -111,6 +117,7 @@ const UserManagement = () => {
             gender: user.gender,
             id: user._id,            
             is_blocked: user.is_blocked,
+            boost_credits: user.boost_credits
         });
         setAdding(false);
         setOpen(true);
@@ -264,6 +271,18 @@ const UserManagement = () => {
                         Object.keys(roles).map((role, index) => <option key={"role-item-" + index} value={roles[role]}>{roles[role]}</option>)
                     }
                 </Select> 
+                <TextField               
+                    label="Credits for Boost"
+                    variant="outlined"
+                    fullWidth
+                    className="mb-3"
+                    type="number"
+                    value={data.boost_credits}
+                    onChange={ev => setData({...data, boost_credits: ev.target.value})}
+                    required={adding}
+                    error={!!errors.boost_credits}
+                    helperText={errors.boost_credits}
+                />  
                 <FormControl component="fieldset" className="mb-2">
                     <FormLabel component="legend">User status</FormLabel>
                     <RadioGroup aria-label="" name="" value={data.is_blocked} onChange={ev => setData({...data, is_blocked: ev.target.value})} className="flex-row">

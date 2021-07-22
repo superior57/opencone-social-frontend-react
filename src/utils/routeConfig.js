@@ -86,7 +86,7 @@ export const routeConfig = {
         {
             path: "/admin/ad-management",
             component: <AdManagement />,
-            roles: [roles.admin]
+            roles: [roles.admin, roles.client]
         }
         
     ],

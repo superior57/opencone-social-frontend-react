@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteUser} from "../../../store/actions/authActions";
+import { deleteUser, getUser} from "../../../store/actions/authActions";
 import BadgeAvatar from "../../common/BadgeAvatar";
 import { 
     Grid, Table, TableHead, TableBody, TableContainer, TableRow, TableCell, Paper, IconButton, Fab, 
@@ -11,9 +11,10 @@ import { useForm } from "react-hook-form";
 import { CLEAR_ERRORS } from "../../../store/actions/types";
 import { useHistory } from "react-router-dom";
 import { getAds, updateAd } from "../../../store/actions/adActions";
-import { getFileType } from "../../../utils/functions";
+import { getFileType, isEmpty } from "../../../utils/functions";
 import { getCategories } from "../../../store/actions/categoryActions";
 import { red, yellow } from "@material-ui/core/colors";
+import { roles } from "../../../utils/roles";
 
 const columns = [
     {
@@ -55,8 +56,8 @@ const columns = [
 
 const AdManagement = () => {
     const { ads: originAds } = useSelector(state => state.ad);
+    const auth = useSelector(state => state.auth);
     const [ads, setAds] = useState([]);
-    // const { categories } = useSelector(state => state.category);
     const errors = useSelector(state => state.errors);
     const dispatch = useDispatch(null);
     const [open, setOpen] = useState(false);
@@ -75,12 +76,26 @@ const AdManagement = () => {
     const isWidthDownSm = useMediaQuery(theme.breakpoints.down('sm'));
     const history = useHistory();
 
-    useEffect(() => {        
-        setAds([
-            ...originAds.filter(ad => ad.order === 1),
-            ...originAds.filter(ad => ad.order !== 1)
-        ])
+    useEffect(() => {
+        dispatch(getUser(auth.user.id));
+    }, [auth.user.id])
+
+    useEffect(() => {     
+        if (auth.user.role === roles.admin) {
+            setAds([
+                ...originAds.filter(ad => ad.order === 1),
+                ...originAds.filter(ad => ad.order !== 1)
+            ])
+        }
     }, [originAds])
+    useEffect(() => {
+        if (auth.user.role !== roles.admin && !isEmpty(auth.tempUser)) {
+            setAds([
+                ...auth.tempUser.ads?.filter(ad => ad.order === 1),
+                ...auth.tempUser.ads?.filter(ad => ad.order !== 1)
+            ])
+        }
+    }, [auth])
     useEffect(() => {
         dispatch(getAds());
         dispatch(getCategories());
@@ -98,6 +113,11 @@ const AdManagement = () => {
         });
         dispatch(updateAd(data._id, formData));
         setOpen(false);
+        if (auth.user.role !== roles.admin) {
+            setAds([
+                ...ads.map(ad => ad._id === data._id ? data : ad)            
+            ])
+        }
     }
     
     const handleAdd = () => {
@@ -107,7 +127,6 @@ const AdManagement = () => {
     }
 
     const handleEdit = (ad) => {
-        console.log(ad);
         setData({
             ...data,
             ...ad
@@ -118,10 +137,20 @@ const AdManagement = () => {
     
     const handleBoost = () => {
         const formData = {
-            order: 1
+            order: 1,
+            boost: true
         };
         dispatch(updateAd(data._id, formData));
         setOpen(false);
+        if (auth.user.role !== roles.admin) {
+            setAds([
+                ...ads.map(ad => ad._id === data._id ? data : ad)            
+            ])
+        }
+    }
+
+    const deleteAd = () => {
+        
     }
 
 
@@ -174,7 +203,7 @@ const AdManagement = () => {
                                             <EditIcon />
                                         </IconButton>        
                                         <IconButton aria-label="" onClick={() => {
-                                            dispatch(deleteUser(ad._id));
+                                            dispatch(deleteAd(ad._id));
                                         }} size="small">
                                             <DeleteIcon />
                                         </IconButton>     
@@ -274,7 +303,7 @@ const AdManagement = () => {
                 <Grid container spacing={1}>
                     <Grid item xs={12} md={6}>
                         <Button variant="contained" type="button" fullWidth style={{ backgroundColor: red[500], color: 'white' }} onClick={handleBoost}>
-                            Boost                  
+                            Boost &nbsp;&nbsp; { auth.user.role !== roles.admin && auth.user.boost_credits }                  
                         </Button>
                     </Grid>     
                     <Grid item xs={12} md={6}>

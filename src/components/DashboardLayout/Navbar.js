@@ -11,6 +11,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { getCategories } from "../../store/actions/categoryActions";
+import { routeConfig } from "../../utils/routeConfig";
 
 const useStyles = makeStyles(theme => ({
   nested: {
@@ -41,7 +42,7 @@ const Navbar = () => {
     dispatch(getCategories());
   }, [])
 
-  console.log(categories);
+  console.log(user);
   
   const filteredCategories = () => {
     let filteredCategoryList = [];
@@ -156,8 +157,8 @@ const Navbar = () => {
           </Link>)
         }
         {
-          user.role === "admin" && adminNavigationList.map((d, i) => <Link to={d.link} className="text-decoration-none" key={'nav-list-' + i} >
-            <ListItem button={d.button} className={`text-${d.color}`}>               
+          adminNavigationList.map((d, i) => routeConfig.dashboardLayoutRoutes.find(route => route.path === d.link).roles.includes(user.role) && <Link to={d.link} className="text-decoration-none" key={'nav-list-' + i} >
+          <ListItem button={d.button} className={`text-${d.color}`}>               
               <ListItemIcon>{d.icon}</ListItemIcon> 
               <ListItemText primary={t(d.label)} />              
             </ListItem>

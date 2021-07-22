@@ -5,13 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUser, updateUser } from "../../store/actions/authActions";
 import TopProfile from "../../components/user/TopProfile";
 import { Paper, Typography, TextField, Button, 
-    DialogContent, DialogTitle, IconButton, Dialog, useTheme, useMediaQuery, MenuItem, makeStyles, FormControl, FormHelperText, FormLabel, Checkbox, FormControlLabel
+    DialogContent, DialogTitle, IconButton, Dialog, useTheme, useMediaQuery, MenuItem, makeStyles, FormControl, Checkbox, FormControlLabel
 } from "@material-ui/core";
 import AllAdList from "../../components/user/AllAdList";
 import AvatarUpload from "../../components/common/avatar/AvatarUpload";
 import { useForm } from "react-hook-form";
 import { Close as CloseIcon } from "@material-ui/icons";
-import { roles } from "../../utils/roles";
 
 const useStyles = makeStyles(theme => ({
     profileItem: {
@@ -82,11 +81,7 @@ const UserProfile = () => {
         </Grid>      
         <Grid item xs={12}>
             {
-                auth.user.id !== tempUser._id ? <Paper elevation={0} square variant='outlined' className="p-3">
-                    <Typography variant="h5" color="initial">All Ads</Typography>
-                    <AllAdList ads={tempUser.ads} />
-                </Paper> :
-                <Paper elevation={0} square variant='outlined' className="p-3">
+                auth.user.id === tempUser._id && <Paper elevation={0} square variant='outlined' className="p-3">
                     <Grid container spacing={0}>
                         <Grid item xs={4} className={classes.profileItem}>
                             <MenuItem onClick={() => {}}>
@@ -126,7 +121,14 @@ const UserProfile = () => {
                         </Grid>
                     </Grid>
                 </Paper>
-            }            
+            }         
+             
+        </Grid>
+        <Grid item xs={12}>
+            <Paper elevation={0} square variant='outlined' className="p-3">
+                <Typography variant="h5" color="initial">All Ads</Typography>
+                <AllAdList ads={tempUser.ads} />
+            </Paper>  
         </Grid>
         <Dialog open={open} onClose={() => setOpen(false)} aria-labelledby="" fullWidth fullScreen={isWidthDownSm}>
           <DialogTitle>
@@ -166,6 +168,17 @@ const UserProfile = () => {
                     required
                     error={!!errors.email}
                     helperText={errors.email}
+                />  
+                <TextField                
+                    label="Credits for Boost"
+                    variant="outlined"
+                    fullWidth
+                    className="mb-3"
+                    type="email"
+                    value={data.boost_credits}
+                    InputProps={{
+                        readOnly: true
+                    }}
                 />  
                 <FormControl className="mb-1">
                     <FormControlLabel
